@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import NoteCard from "../../components/NoteCard.astro";
+import { isVisible } from "../../lib/visibility";
+import { slugifyTag } from "../../lib/tags";
+import { getAllThoughts, getTagMapForThoughts, type Thought } from "../../lib/thoughts";
+
+type Props = {
+  slug: string;
+  tag: string;
+  posts: any[];
+  notes: Thought[];
+};
+
+export async function getStaticPaths() {
+  const [posts, thoughtTags, thoughts] = await Promise.all([getCollection("posts"), getTagMapForThoughts(), getAllThoughts()]);
+  const publishedPosts = posts.filter((p) => isVisible(p.data.publishedAt));
+
+  const tagsBySlug = new Map<string, string>();
+  for (const p of publishedPosts) for (const t of p.data.tags || []) tagsBySlug.set(slugifyTag(t), t);
+  for (const [slug, tag] of thoughtTags.entries()) tagsBySlug.set(slug, tag);
+
+  return Array.from(tagsBySlug.entries()).map(([slug, tag]) => ({
+    params: { slug },
+    props: {
+      slug,
+      tag,
+      posts: publishedPosts.filter((p) => (p.data.tags || []).some((t) => slugifyTag(t) === slug)),
+      notes: thoughts.filter((n) => n.tags.some((t) => slugifyTag(t) === slug)),
+    },
+  }));
+}
+
+const { slug, tag, posts, notes } = Astro.props as Props;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `Tag: ${tag}`,
+  description: `Posts and thoughts tagged ${tag}`,
+};
+---
+
+<BaseLayout title={`#${tag} | Tag | Tech Mage`} description={`Posts and thoughts tagged ${tag}`}>
+  <section class="stack">
+    <h1>#{tag}</h1>
+
+    <h2>Posts</h2>
+    {posts.length ? posts.map((post) => <PostCard post={post} />) : <p class="card">No posts yet.</p>}
+
+    <h2>Thoughts</h2>
+    {notes.length ? notes.map((note) => <NoteCard note={note} />) : <p class="card">No thoughts yet.</p>}
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+</BaseLayout>

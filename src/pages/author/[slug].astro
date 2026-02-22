@@ -1,0 +1,84 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import NoteCard from "../../components/NoteCard.astro";
+import { resolveAuthorSlug } from "../../lib/content-path";
+import { isVisible } from "../../lib/visibility";
+import { withBase } from "../../lib/url";
+import { getAllThoughts, type Thought } from "../../lib/thoughts";
+
+type Props = {
+  slug: string;
+  authorMeta?: {
+    name?: string;
+    description?: string;
+    image?: string;
+  };
+  posts: any[];
+  notes: Thought[];
+};
+
+export async function getStaticPaths() {
+  const [posts, authors, thoughts] = await Promise.all([
+    getCollection("posts"),
+    getCollection("authors"),
+    getAllThoughts(),
+  ]);
+
+  const publishedPosts = posts.filter((p) => isVisible(p.data.publishedAt));
+
+  const slugs = new Set<string>();
+  for (const p of publishedPosts) slugs.add(resolveAuthorSlug({ ...p, collection: "posts" }));
+  for (const thought of thoughts) slugs.add(thought.authorSlug);
+  for (const author of authors) slugs.add(author.data.slug);
+
+  return Array.from(slugs).map((slug) => {
+    const author = authors.find((a) => a.data.slug === slug);
+    return {
+      params: { slug },
+      props: {
+        slug,
+        authorMeta: author?.data,
+        posts: publishedPosts.filter((p) => resolveAuthorSlug({ ...p, collection: "posts" }) === slug),
+        notes: thoughts.filter((t) => t.authorSlug === slug),
+      },
+    };
+  });
+}
+
+const { slug, posts, notes, authorMeta } = Astro.props as Props;
+const title = authorMeta?.name || slug;
+const description = authorMeta?.description || `Posts by ${title}`;
+const pageUrl = withBase(`/author/${slug}/`);
+const jsonLdPerson = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: title,
+  description,
+  image: authorMeta?.image,
+  url: pageUrl,
+};
+const jsonLdCollection = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `${title} | Author | Tech Mage`,
+  description,
+  url: pageUrl,
+};
+---
+
+<BaseLayout title={`${title} | Author | Tech Mage`} description={description}>
+  <section class="stack">
+    <h1>{title}</h1>
+    {authorMeta?.description && <p class="muted">{authorMeta.description}</p>}
+
+    <h2>Posts</h2>
+    {posts.length ? posts.map((post) => <PostCard post={post} />) : <p class="card">No posts yet.</p>}
+
+    <h2>Thoughts</h2>
+    {notes.length ? notes.map((note) => <NoteCard note={note} />) : <p class="card">No thoughts yet.</p>}
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdPerson)}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollection)}></script>
+</BaseLayout>

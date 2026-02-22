@@ -1,0 +1,68 @@
+---
+import { formatContentDate } from "../lib/date";
+import { slugifyTag } from "../lib/tags";
+import { withBase } from "../lib/url";
+import type { Thought } from "../lib/thoughts";
+
+type Props = {
+  note: Thought;
+};
+
+const { note } = Astro.props as Props;
+const teaser = note.content.slice(0, 220).trim();
+const thoughtHref = withBase(note.url);
+---
+
+<article id={note.id} class="card note-card stack">
+  <header class="note-head">
+    <h3><a href={thoughtHref}>{note.authorName}</a></h3>
+    <div class="note-meta">
+      <span class="pill">{formatContentDate(note.publishedAt)}</span>
+    </div>
+  </header>
+  <p>{teaser}{note.content.length > 220 ? "..." : ""}</p>
+  {note.tags.length > 0 && (
+    <p class="tags">{note.tags.map((tag) => <a href={withBase(`/tag/${slugifyTag(tag)}/`)}>#{tag}</a>)}</p>
+  )}
+</article>
+
+<style>
+  .note-card {
+    gap: 0.65rem;
+  }
+
+  .note-head {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  h3 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  .note-meta {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tags {
+    margin: 0;
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  .tags a {
+    text-decoration: none;
+    color: var(--accent-soft);
+    font-size: 0.85rem;
+  }
+</style>

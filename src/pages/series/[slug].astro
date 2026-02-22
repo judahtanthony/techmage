@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { isVisible } from "../../lib/visibility";
+
+type Props = {
+  slug: string;
+  posts: any[];
+};
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts")).filter((entry) => isVisible(entry.data.publishedAt));
+  const series = new Set<string>();
+  for (const post of posts) {
+    if (post.data.series) series.add(post.data.series);
+  }
+
+  return Array.from(series).map((slug) => ({
+    params: { slug },
+    props: {
+      slug,
+      posts: posts
+        .filter((entry) => entry.data.series === slug)
+        .sort((a, b) => {
+          const apart = a.data.part || 9999;
+          const bpart = b.data.part || 9999;
+          if (apart !== bpart) return apart - bpart;
+          return new Date(a.data.publishedAt || 0).getTime() - new Date(b.data.publishedAt || 0).getTime();
+        }),
+    },
+  }));
+}
+
+const { slug, posts } = Astro.props as Props;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `Series: ${slug}`,
+  description: `Articles in the ${slug} series`,
+};
+---
+
+<BaseLayout title={`Series: ${slug} | Tech Mage`} description={`Articles in the ${slug} series`}>
+  <section class="stack">
+    <h1>Series: {slug}</h1>
+    {posts.map((post) => <PostCard post={post} />)}
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+</BaseLayout>

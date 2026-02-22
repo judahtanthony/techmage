@@ -1,0 +1,115 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { resolvePermalink, resolveNamespace } from "../lib/content-path";
+import { formatContentDate } from "../lib/date";
+import { withBase } from "../lib/url";
+import { buildResponsiveImage } from "../lib/media";
+import { slugifyTag } from "../lib/tags";
+import { isDraft } from "../lib/visibility";
+import { renderTeaserMarkdown, resolvePostTeaser } from "../lib/teaser";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props as Props;
+const href = withBase(resolvePermalink({ ...post, collection: "posts" }));
+const categorySlug = resolveNamespace({ ...post, collection: "posts" });
+const image = buildResponsiveImage(post.data.image, post.slug, 680, 420, "(min-width: 900px) 45vw, 100vw");
+const teaser = resolvePostTeaser(post, 160);
+const teaserHtml = renderTeaserMarkdown(teaser);
+---
+
+<article class="card post-card stack">
+  <a class="media" href={href}>
+    <img
+      src={image.src}
+      srcset={image.srcset}
+      sizes={image.sizes}
+      width={image.width}
+      height={image.height}
+      alt={post.data.title}
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+  <div class="stack copy">
+    <div class="meta">
+      <span class="pill">{formatContentDate(post.data.publishedAt)}</span>
+      {isDraft(post.data.publishedAt) && <span class="pill draft">Draft</span>}
+      <a class="pill link-pill" href={withBase(`/category/${categorySlug}/`)}>{categorySlug}</a>
+    </div>
+    <h3><a href={href}>{post.data.title}</a></h3>
+    <p class="muted" set:html={teaserHtml}></p>
+    {(post.data.tags || []).length > 0 && (
+      <p class="tags">{(post.data.tags || []).slice(0, 4).map((tag) => <a href={withBase(`/tag/${slugifyTag(tag)}/`)}>#{tag}</a>)}</p>
+    )}
+  </div>
+</article>
+
+<style>
+  .post-card {
+    overflow: hidden;
+    gap: 0.8rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(248, 210, 71, 0.45);
+  }
+
+  .media {
+    display: block;
+    border-radius: 11px;
+    overflow: hidden;
+  }
+
+  .media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .copy {
+    gap: 0.65rem;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  .tags a {
+    text-decoration: none;
+    color: var(--accent-soft);
+    font-size: 0.85rem;
+  }
+
+  .link-pill {
+    text-decoration: none;
+  }
+
+  .draft {
+    color: #ffd8a0;
+    border-color: rgba(255, 181, 90, 0.45);
+    background: rgba(255, 171, 60, 0.1);
+  }
+</style>

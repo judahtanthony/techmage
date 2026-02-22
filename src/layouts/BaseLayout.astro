@@ -1,0 +1,411 @@
+---
+import { getCollection } from "astro:content";
+import "../styles/global.css";
+import { siteConfig } from "../site.config";
+import { withBase } from "../lib/url";
+
+type Props = {
+  title?: string;
+  description?: string;
+  canonical?: string;
+};
+
+const {
+  title = siteConfig.siteName,
+  description = "Tech Mage: articles and thoughts",
+  canonical,
+} = Astro.props as Props;
+
+const homeHref = withBase("/");
+const notesHref = withBase("/notes/");
+const searchHref = withBase("/search/");
+const canonicalHref = canonical || new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
+const categories = (await getCollection("categories")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalHref} />
+    <link rel="icon" href={withBase("/brand/tech-mage-icon.svg")} type="image/svg+xml" />
+    <link rel="shortcut icon" href={withBase("/brand/tech-mage-icon.svg")} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="logo" href={homeHref} aria-label="Tech Mage home">
+            <img class="logo-mark" src={withBase("/brand/tech-mage-icon.svg")} alt="" width="24" height="24" />
+            <span>Tech Mage</span>
+          </a>
+          <nav class="primary-links">
+            {categories.map((category) => (
+              <a href={withBase(`/category/${category.data.slug}/`)}>{category.data.name}</a>
+            ))}
+            <a href={notesHref}>Thoughts</a>
+          </nav>
+          <form class="search" id="nav-search-form" action={searchHref} method="get" autocomplete="off">
+            <input id="nav-search-input" type="search" name="q" placeholder="Search title, category, tags" />
+            <button class="search-toggle" id="nav-search-toggle" type="button" aria-label="Open search">
+              <img src={withBase("/icons/search-flaticon-style.svg")} alt="" />
+            </button>
+            <div id="nav-search-suggest" class="suggest hidden" role="listbox" aria-label="Search suggestions"></div>
+          </form>
+        </div>
+      </header>
+      <main>
+        <slot />
+      </main>
+    </div>
+
+    <script is:inline define:vars={{ base: siteConfig.basePath }}>
+      const keywordsPath = (base === "/" ? "" : base) + "/search-keywords.json";
+
+      const form = document.getElementById("nav-search-form");
+      const toggle = document.getElementById("nav-search-toggle");
+      const input = document.getElementById("nav-search-input");
+      const suggest = document.getElementById("nav-search-suggest");
+      let records = [];
+      let loaded = false;
+      let suggestions = [];
+      let activeIndex = -1;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      async function ensureRecords() {
+        if (loaded) return;
+        try {
+          const res = await fetch(keywordsPath);
+          const json = await res.json();
+          records = Array.isArray(json) ? json.map((x) => String(x).toLowerCase()) : [];
+          loaded = true;
+        } catch {
+          loaded = true;
+          records = [];
+        }
+      }
+
+      function renderSuggest(items) {
+        suggestions = items;
+        activeIndex = -1;
+        if (!items.length) {
+          suggest.innerHTML = "";
+          suggest.classList.add("hidden");
+          return;
+        }
+        suggest.innerHTML = items
+          .map((value, idx) => {
+            const safeValue = escapeHtml(value);
+            return `<button type=\"button\" class=\"item\" role=\"option\" data-index=\"${idx}\" data-value=\"${safeValue}\"><span class=\"term\">${safeValue}</span></button>`;
+          })
+          .join("");
+        suggest.classList.remove("hidden");
+      }
+
+      function setActiveIndex(next) {
+        if (!suggestions.length) {
+          activeIndex = -1;
+          return;
+        }
+        const max = suggestions.length - 1;
+        if (next < 0) activeIndex = max;
+        else if (next > max) activeIndex = 0;
+        else activeIndex = next;
+
+        const items = Array.from(suggest.querySelectorAll(".item"));
+        items.forEach((item, idx) => {
+          const selected = idx === activeIndex;
+          item.classList.toggle("active", selected);
+          item.setAttribute("aria-selected", selected ? "true" : "false");
+        });
+      }
+
+      function selectActive(submit) {
+        if (activeIndex < 0 || activeIndex >= suggestions.length) return false;
+        input.value = suggestions[activeIndex];
+        renderSuggest([]);
+        if (submit) form?.requestSubmit();
+        return true;
+      }
+
+      async function onInput() {
+        const q = input.value.trim().toLowerCase();
+        if (!q) {
+          renderSuggest([]);
+          return;
+        }
+        await ensureRecords();
+        const items = records
+          .map((value) => ({
+            value,
+            score: (value.startsWith(q) ? 4 : 0) + (value.includes(q) ? 2 : 0) - value.length / 200,
+          }))
+          .filter((x) => x.value.includes(q))
+          .filter((x, idx, arr) => arr.findIndex((y) => y.value === x.value) === idx)
+          .sort((a, b) => b.score - a.score || a.value.localeCompare(b.value))
+          .slice(0, 10)
+          .map((x) => x.value);
+        renderSuggest(items);
+      }
+
+      function onInputKeydown(e) {
+        if (!suggestions.length) return;
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setActiveIndex(activeIndex + 1);
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setActiveIndex(activeIndex - 1);
+          return;
+        }
+        if (e.key === "Tab" && activeIndex >= 0) {
+          e.preventDefault();
+          selectActive(false);
+          return;
+        }
+        if (e.key === "Enter" && activeIndex >= 0) {
+          e.preventDefault();
+          selectActive(true);
+          return;
+        }
+        if (e.key === "Escape") {
+          renderSuggest([]);
+          if (!input?.value?.trim()) form?.classList.remove("expanded");
+        }
+      }
+
+      function onSuggestClick(e) {
+        const el = e.target?.closest?.(".item");
+        if (!el) return;
+        const value = el.getAttribute("data-value");
+        if (!value) return;
+        input.value = value;
+        renderSuggest([]);
+        form?.requestSubmit();
+      }
+
+      function onSuggestMove(e) {
+        const el = e.target?.closest?.(".item");
+        if (!el) return;
+        const idx = Number(el.getAttribute("data-index"));
+        if (Number.isFinite(idx)) setActiveIndex(idx);
+      }
+
+      input?.addEventListener("focus", ensureRecords);
+      input?.addEventListener("focus", () => form?.classList.add("expanded"));
+      input?.addEventListener("input", onInput);
+      input?.addEventListener("keydown", onInputKeydown);
+      suggest?.addEventListener("click", onSuggestClick);
+      suggest?.addEventListener("mousemove", onSuggestMove);
+      form?.addEventListener("submit", () => suggest.classList.add("hidden"));
+      toggle?.addEventListener("click", () => {
+        form?.classList.add("expanded");
+        input?.focus();
+      });
+      document.addEventListener("click", (e) => {
+        if (!form?.contains(e.target)) {
+          suggest.classList.add("hidden");
+          if (!input?.value?.trim()) form?.classList.remove("expanded");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+    background: rgba(6, 10, 17, 0.84);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topbar-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0.85rem 1.25rem;
+    display: grid;
+    gap: 0.85rem;
+    align-items: center;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .logo {
+    font-size: 1.45rem;
+    text-decoration: none;
+    color: var(--accent-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.52rem;
+  }
+
+  .logo-mark {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: block;
+  }
+
+  .primary-links {
+    display: flex;
+    gap: 1.1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .primary-links a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .primary-links a:hover {
+    color: var(--text);
+  }
+
+  .search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(17, 26, 42, 0.95);
+    width: 2.3rem;
+    min-width: 2.3rem;
+    height: 2.3rem;
+    overflow: visible;
+    transition: width 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-toggle {
+    all: unset;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+
+  .search-toggle img {
+    width: 1rem;
+    height: 1rem;
+    opacity: 1;
+    filter: brightness(0) invert(1);
+  }
+
+  .search input {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 0.52rem 2.3rem 0.52rem 0.82rem;
+    margin-left: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    transition: width 0.2s ease, opacity 0.16s ease, margin-left 0.2s ease;
+  }
+
+  .search.expanded,
+  .search:focus-within {
+    width: min(360px, 46vw);
+    box-shadow: 0 0 0 2px rgba(248, 210, 71, 0.08);
+    border-color: rgba(248, 210, 71, 0.35);
+  }
+
+  .search.expanded input,
+  .search:focus-within input {
+    width: 100%;
+    opacity: 1;
+    pointer-events: auto;
+    margin-left: 0.15rem;
+  }
+
+  .search input::placeholder {
+    color: var(--muted);
+  }
+
+  .suggest {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    right: 0;
+    padding: 0.35rem;
+    background: rgba(12, 20, 36, 0.98);
+    border: 1px solid rgba(74, 100, 145, 0.65);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(1, 6, 16, 0.58), 0 0 0 1px rgba(17, 30, 52, 0.7) inset;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  .suggest :global(.item) {
+    appearance: none;
+    width: 100%;
+    border: none;
+    text-align: left;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr;
+    padding: 0.58rem 0.65rem;
+    text-decoration: none;
+    border-radius: 9px;
+    color: #dfe9fb;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .suggest :global(.item .term) {
+    text-transform: lowercase;
+    letter-spacing: 0.01em;
+  }
+
+  .suggest :global(.item:hover),
+  .suggest :global(.item.active) {
+    background: rgba(68, 115, 193, 0.34);
+    color: #ffffff;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media (max-width: 940px) {
+    .topbar-inner {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .search {
+      width: 100%;
+      justify-self: stretch;
+    }
+    .search.expanded,
+    .search:focus-within {
+      width: 100%;
+    }
+  }
+</style>

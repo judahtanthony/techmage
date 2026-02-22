@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NoteCard from "../../components/NoteCard.astro";
+import { getAllThoughts } from "../../lib/thoughts";
+
+const notes = await getAllThoughts();
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Tech Mage Thoughts",
+  description: "Short thoughts and stream updates",
+};
+---
+
+<BaseLayout title="Thoughts | Tech Mage" description="Short thoughts and stream updates">
+  <section class="stack">
+    <h1>Thoughts</h1>
+    {notes.map((note) => <NoteCard note={note} />)}
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+</BaseLayout>

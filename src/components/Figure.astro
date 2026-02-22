@@ -1,0 +1,33 @@
+---
+import { withBase } from "../lib/url";
+
+type Props = {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  loading?: "lazy" | "eager";
+};
+
+const {
+  src,
+  alt,
+  caption,
+  width,
+  height,
+  loading = "lazy",
+} = Astro.props as Props;
+---
+
+<figure class="prose-figure">
+  <img
+    class="prose-image"
+    src={withBase(src)}
+    alt={alt}
+    loading={loading}
+    width={width}
+    height={height}
+  />
+  {caption && <figcaption class="prose-caption">{caption}</figcaption>}
+</figure>

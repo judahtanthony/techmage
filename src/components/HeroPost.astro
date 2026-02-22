@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { resolvePermalink } from "../lib/content-path";
+import { withBase } from "../lib/url";
+import { formatContentDate } from "../lib/date";
+import { buildResponsiveImage } from "../lib/media";
+import { renderTeaserMarkdown, resolvePostTeaser } from "../lib/teaser";
+
+type Props = {
+  post?: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props as Props;
+if (!post) {
+  throw new Error("HeroPost requires a post");
+}
+const href = withBase(resolvePermalink({ ...post, collection: "posts" }));
+const heroImage = buildResponsiveImage(post.data.image, post.slug, 1400, 700, "(min-width: 1120px) 1120px, 100vw");
+const teaser = resolvePostTeaser(post, 220);
+const teaserHtml = renderTeaserMarkdown(teaser);
+---
+
+<section class="hero card">
+  <img
+    class="hero-image"
+    src={heroImage.src}
+    srcset={heroImage.srcset}
+    sizes={heroImage.sizes}
+    width={heroImage.width}
+    height={heroImage.height}
+    alt={post.data.title}
+    loading="eager"
+    decoding="async"
+  />
+  <div class="overlay"></div>
+  <div class="hero-content stack">
+    <span class="badge">Featured Story</span>
+    <h1><a href={href}>{post.data.title}</a></h1>
+    <p class="muted">{formatContentDate(post.data.publishedAt)}</p>
+    <p class="desc" set:html={teaserHtml}></p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(320px, 46vw, 500px);
+    padding: 0;
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.04);
+    filter: saturate(1.15);
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(9, 13, 20, 0.08) 0%, rgba(9, 13, 20, 0.92) 78%),
+      linear-gradient(120deg, rgba(248, 210, 71, 0.1), transparent 45%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    align-content: end;
+    padding: clamp(1.1rem, 3vw, 2rem);
+    max-width: 760px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 4.4vw, 3.25rem);
+    line-height: 1.06;
+  }
+
+  .hero h1 a {
+    text-decoration: none;
+  }
+
+  .desc {
+    color: #c6d3eb;
+    max-width: 64ch;
+  }
+</style>

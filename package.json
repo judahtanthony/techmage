@@ -1,0 +1,37 @@
+{
+  "name": "tech-mage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.6.3",
+  "scripts": {
+    "content:prepare": "pnpm run redirects:generate && pnpm run search:index && pnpm run validate:content",
+    "test:scheduling": "node --test scripts/tests/scheduling.test.mjs",
+    "dev": "astro dev",
+    "dev:local": "SITE_URL=http://localhost:4321 SITE_BASE_PATH=/ SITE_INCLUDE_DRAFTS=true CLOUDFLARE_IMAGE_RESIZE_ENABLED=false pnpm run content:prepare && astro dev",
+    "build": "astro build",
+    "build:local": "SITE_URL=http://localhost:4321 SITE_BASE_PATH=/ SITE_INCLUDE_DRAFTS=true CLOUDFLARE_IMAGE_RESIZE_ENABLED=false pnpm run content:prepare && astro build",
+    "preview": "astro preview",
+    "preview:local": "SITE_URL=http://localhost:4321 SITE_BASE_PATH=/ SITE_INCLUDE_DRAFTS=true CLOUDFLARE_IMAGE_RESIZE_ENABLED=false astro preview",
+    "redirects:generate": "node scripts/generate-redirect-pages.mjs",
+    "search:index": "node scripts/generate-search-index.mjs",
+    "validate:content": "node scripts/validate-content.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.4.0",
+    "fast-glob": "^3.3.3",
+    "gray-matter": "^4.0.3",
+    "katex": "^0.16.22",
+    "lunr": "^2.3.9",
+    "luxon": "^3.7.2",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
+}

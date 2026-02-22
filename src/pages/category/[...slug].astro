@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroPost from "../../components/HeroPost.astro";
+import PostCard from "../../components/PostCard.astro";
+import NoteCard from "../../components/NoteCard.astro";
+import { resolveNamespace } from "../../lib/content-path";
+import { isVisible } from "../../lib/visibility";
+import { getAllThoughts } from "../../lib/thoughts";
+import { withBase } from "../../lib/url";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  slug: string;
+  categoryMeta?: {
+    name?: string;
+    description?: string;
+    image?: string;
+  };
+  posts: CollectionEntry<"posts">[];
+};
+
+export async function getStaticPaths() {
+  const [posts, categories] = await Promise.all([
+    getCollection("posts"),
+    getCollection("categories"),
+  ]);
+
+  const publishedPosts = posts.filter((p) => isVisible(p.data.publishedAt));
+
+  const slugs = new Set<string>();
+  for (const p of publishedPosts) slugs.add(resolveNamespace({ ...p, collection: "posts" }));
+
+  return Array.from(slugs).map((slug) => {
+    const category = categories.find((c) => c.data.slug === slug);
+    return {
+      params: { slug },
+      props: {
+        slug,
+        posts: publishedPosts.filter((p) => resolveNamespace({ ...p, collection: "posts" }) === slug),
+        categoryMeta: category?.data,
+      },
+    };
+  });
+}
+
+const { slug, posts, categoryMeta } = Astro.props as Props;
+const sortedPosts = [...posts].sort((a, b) => (a.data.publishedAt || "") < (b.data.publishedAt || "") ? 1 : -1);
+const featured = sortedPosts.find((p) => (p.data.tags || []).includes("featured")) || sortedPosts[0];
+const latestPosts = sortedPosts.filter((p) => p.id !== featured?.id).slice(0, 10);
+const latestNotes = (await getAllThoughts()).slice(0, 8);
+const title = categoryMeta?.name || slug;
+const description = categoryMeta?.description || `Posts in ${title}`;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `Category: ${title}`,
+  description,
+};
+---
+
+<BaseLayout title={`${title} | Category | Tech Mage`} description={description}>
+  <section class="stack">
+    <h1>{title}</h1>
+    {categoryMeta?.description && <p class="muted">{categoryMeta.description}</p>}
+
+    {featured ? <HeroPost post={featured} /> : <p class="card">No posts yet.</p>}
+
+    <section class="grid-2">
+      <div class="stack">
+        <div class="section-head">
+          <h2>Latest Articles</h2>
+          <a class="pill" href={withBase("/blog/")}>View all</a>
+        </div>
+        {latestPosts.length ? latestPosts.map((post) => <PostCard post={post} />) : <p class="card">No additional posts yet.</p>}
+      </div>
+      <aside class="stack">
+        <div class="section-head">
+          <h2>Latest Thoughts</h2>
+          <a class="pill" href={withBase("/notes/")}>View all</a>
+        </div>
+        {latestNotes.length ? latestNotes.map((note) => <NoteCard note={note} />) : <p class="card">No thoughts yet.</p>}
+      </aside>
+    </section>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+</BaseLayout>

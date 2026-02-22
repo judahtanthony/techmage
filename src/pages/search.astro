@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../site.config";
+---
+
+<BaseLayout title="Search | Tech Mage" description="Search articles and thoughts">
+  <section class="stack search-page">
+    <h1>Search</h1>
+    <form id="search-form" action="" method="get" class="card search-shell" data-base={siteConfig.basePath}>
+      <input id="search-input" name="q" type="search" placeholder="Search articles and thoughts" />
+    </form>
+    <div id="results" class="stack search-results"></div>
+  </section>
+
+  <script>
+    const form = document.getElementById("search-form");
+    const base = form?.dataset?.base || "/";
+    const normalizedBase = base === "/" ? "" : base;
+    const corpusPath = `${normalizedBase}/search-lunr.json`;
+
+    const params = new URLSearchParams(window.location.search);
+    const input = document.getElementById("search-input");
+    const resultsEl = document.getElementById("results");
+    let loaded = false;
+    let idx;
+    let docs = [];
+
+    async function ensureLunrLoaded() {
+      if (loaded) return;
+      const [{ default: lunr }, corpus] = await Promise.all([
+        import("lunr"),
+        fetch(corpusPath).then((r) => r.json()),
+      ]);
+
+      docs = corpus;
+      idx = lunr(function () {
+        this.ref("id");
+        this.field("title");
+        this.field("category");
+        this.field("tags");
+        this.field("body");
+        for (const doc of docs) this.add(doc);
+      });
+      loaded = true;
+    }
+
+    function render(rows) {
+      resultsEl.innerHTML = rows
+        .map((row) => {
+          const href = `${normalizedBase}${row.url}`;
+          const meta = [row.category, row.tags].filter(Boolean).join(" • ");
+          return `<article class=\"card result\"><a class=\"title\" href=\"${href}\">${row.title}</a><p class=\"muted\">${meta}</p></article>`;
+        })
+        .join("");
+    }
+
+    async function runSearch(query) {
+      const q = query.trim();
+      if (!q) {
+        render([]);
+        return;
+      }
+      await ensureLunrLoaded();
+      const hits = idx.search(`${q}*`);
+      const byId = new Map(docs.map((d) => [d.id, d]));
+      render(hits.map((h) => byId.get(h.ref)).filter(Boolean));
+    }
+
+    const initial = params.get("q") || "";
+    input.value = initial;
+    if (initial) runSearch(initial);
+
+    let timer;
+    input.addEventListener("input", (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => runSearch(e.target.value), 90);
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .search-page {
+    gap: 0.85rem;
+  }
+
+  .search-shell {
+    padding: 0.7rem;
+    background: linear-gradient(165deg, rgba(20, 33, 55, 0.8), rgba(12, 20, 33, 0.98));
+  }
+
+  .search-shell input {
+    width: 100%;
+    border-radius: 11px;
+    border: 1px solid var(--line);
+    background: rgba(12, 20, 34, 0.95);
+    color: var(--text);
+    font: inherit;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .search-shell input:focus {
+    outline: none;
+    border-color: rgba(248, 210, 71, 0.55);
+    box-shadow: 0 0 0 3px rgba(248, 210, 71, 0.15);
+  }
+
+  .search-results {
+    gap: 0.75rem;
+  }
+
+  .result {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .result .title {
+    text-decoration: none;
+    font-weight: 600;
+    color: #e9effd;
+  }
+</style>

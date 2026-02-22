@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroPost from "../components/HeroPost.astro";
+import PostCard from "../components/PostCard.astro";
+import NoteCard from "../components/NoteCard.astro";
+import { isVisible } from "../lib/visibility";
+import { withBase } from "../lib/url";
+import { getAllThoughts } from "../lib/thoughts";
+
+const posts = (await getCollection("posts"))
+  .filter((p) => isVisible(p.data.publishedAt))
+  .sort((a, b) => (a.data.publishedAt || "") < (b.data.publishedAt || "") ? 1 : -1);
+
+const notes = await getAllThoughts();
+
+const featured = posts.find((p) => (p.data.tags || []).includes("featured")) || posts[0];
+const latestTenPosts = posts.filter((p) => p.id !== featured?.id).slice(0, 10);
+const latestNotes = notes.slice(0, 8);
+---
+
+<BaseLayout title="Tech Mage" description="Tech Mage article and thought stream">
+  <div class="stack">
+    {featured ? <HeroPost post={featured} /> : <p class="card">No published posts yet.</p>}
+
+    <section class="grid-2">
+      <div class="stack">
+        <div class="section-head">
+          <h2>Latest Articles</h2>
+          <a class="pill" href={withBase("/blog/")}>View all</a>
+        </div>
+        {latestTenPosts.map((post) => <PostCard post={post} />)}
+      </div>
+      <aside class="stack">
+        <div class="section-head">
+          <h2>Latest Thoughts</h2>
+          <a class="pill" href={withBase("/notes/")}>View all</a>
+        </div>
+        {latestNotes.map((note) => <NoteCard note={note} />)}
+      </aside>
+    </section>
+
+    <section class="card cta stack">
+      <span class="badge">Build in Public</span>
+      <h2>Tech Mage is your own channel. Own the feed, own the archive.</h2>
+      <p class="muted">
+        Start with quick thoughts, grow them into full essays, and keep every idea searchable.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .cta {
+    padding: 1.25rem;
+    background:
+      linear-gradient(140deg, rgba(248, 210, 71, 0.08), rgba(69, 139, 255, 0.12)),
+      rgba(16, 24, 39, 0.94);
+  }
+
+  .cta h2 {
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    max-width: 38ch;
+  }
+</style>

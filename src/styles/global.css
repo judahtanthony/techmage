@@ -1,0 +1,126 @@
+:root {
+  --bg: #090d14;
+  --bg-soft: #0f1522;
+  --surface: #101827;
+  --surface-2: #141f32;
+  --text: #e7edf9;
+  --muted: #90a0bb;
+  --line: #26334a;
+  --accent: #f8d247;
+  --accent-soft: #fff0a6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(1200px 580px at 0% -10%, rgba(72, 140, 255, 0.25), transparent 60%),
+    radial-gradient(900px 520px at 90% 0%, rgba(248, 210, 71, 0.12), transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Sora", "Inter", "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+}
+
+.site-wrap {
+  min-height: 100dvh;
+}
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+h1,
+h2,
+h3,
+.logo {
+  font-family: "Space Grotesk", "Sora", sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.card {
+  background:
+    linear-gradient(170deg, rgba(27, 41, 64, 0.88), rgba(14, 22, 35, 0.96)),
+    var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 22px 42px rgba(1, 6, 16, 0.35);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.grid-2 {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: 2fr 1fr;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  background: rgba(18, 27, 43, 0.75);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(248, 210, 71, 0.14);
+  color: var(--accent-soft);
+  border: 1px solid rgba(248, 210, 71, 0.35);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 900px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}
