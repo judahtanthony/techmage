@@ -70,15 +70,27 @@ const jsonLdCollection = {
 
 <BaseLayout title={`${title} | Author | Tech Mage`} description={description}>
   <section class="stack">
-    <h1>{title}</h1>
-    {authorMeta?.description && <p class="muted">{authorMeta.description}</p>}
+    <header class="page-hero stack">
+      <h1>{title}</h1>
+      {authorMeta?.description && <p class="muted">{authorMeta.description}</p>}
+    </header>
 
-    <h2>Posts</h2>
-    {posts.length ? posts.map((post) => <PostCard post={post} />) : <p class="card">No posts yet.</p>}
+    <section class="stack">
+      <h2>Posts</h2>
+      {posts.length ? posts.map((post) => <PostCard post={post} />) : <p class="card empty">No posts yet.</p>}
+    </section>
 
-    <h2>Thoughts</h2>
-    {notes.length ? notes.map((note) => <NoteCard note={note} />) : <p class="card">No thoughts yet.</p>}
+    <section class="stack">
+      <h2>Thoughts</h2>
+      {notes.length ? notes.map((note) => <NoteCard note={note} />) : <p class="card empty">No thoughts yet.</p>}
+    </section>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLdPerson)}></script>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollection)}></script>
 </BaseLayout>
+
+<style>
+  .empty {
+    padding: 1rem;
+  }
+</style>

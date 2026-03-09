@@ -20,8 +20,8 @@ const teaser = resolvePostTeaser(post, 160);
 const teaserHtml = renderTeaserMarkdown(teaser);
 ---
 
-<article class="card post-card stack">
-  <a class="media" href={href}>
+<article class="card post-card stack fade-in">
+  <a class="media ui-image-frame" href={href}>
     <img
       src={image.src}
       srcset={image.srcset}
@@ -50,18 +50,20 @@ const teaserHtml = renderTeaserMarkdown(teaser);
 <style>
   .post-card {
     overflow: hidden;
-    gap: 0.8rem;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    padding: 0.9rem;
+    gap: 0.85rem;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
   }
 
   .post-card:hover {
-    transform: translateY(-1px);
-    border-color: rgba(248, 210, 71, 0.45);
+    transform: translateY(-2px);
+    border-color: rgba(243, 165, 58, 0.32);
+    box-shadow: var(--shadow-raised-lg);
   }
 
   .media {
     display: block;
-    border-radius: 11px;
+    border-radius: 0.95rem;
     overflow: hidden;
   }
 
@@ -70,6 +72,11 @@ const teaserHtml = renderTeaserMarkdown(teaser);
     width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .post-card:hover .media img {
+    transform: scale(1.02);
   }
 
   .copy {
@@ -83,24 +90,27 @@ const teaserHtml = renderTeaserMarkdown(teaser);
   }
 
   h3 {
-    font-size: 1.15rem;
+    font-size: 1.18rem;
   }
 
   h3 a {
     text-decoration: none;
   }
 
+  h3 a:hover {
+    color: #ffd5a0;
+  }
+
   .tags {
     display: flex;
     gap: 0.55rem;
     flex-wrap: wrap;
-    margin: 0;
   }
 
   .tags a {
     text-decoration: none;
-    color: var(--accent-soft);
-    font-size: 0.85rem;
+    color: #f5c788;
+    font-size: 0.84rem;
   }
 
   .link-pill {

@@ -20,19 +20,21 @@ const teaser = resolvePostTeaser(post, 220);
 const teaserHtml = renderTeaserMarkdown(teaser);
 ---
 
-<section class="hero card">
-  <img
-    class="hero-image"
-    src={heroImage.src}
-    srcset={heroImage.srcset}
-    sizes={heroImage.sizes}
-    width={heroImage.width}
-    height={heroImage.height}
-    alt={post.data.title}
-    loading="eager"
-    decoding="async"
-  />
-  <div class="overlay"></div>
+<section class="hero ui-raised-panel-strong fade-in">
+  <div class="ui-image-frame hero-media">
+    <img
+      class="hero-image"
+      src={heroImage.src}
+      srcset={heroImage.srcset}
+      sizes={heroImage.sizes}
+      width={heroImage.width}
+      height={heroImage.height}
+      alt={post.data.title}
+      loading="eager"
+      decoding="async"
+    />
+    <div class="overlay"></div>
+  </div>
   <div class="hero-content stack">
     <span class="badge">Featured Story</span>
     <h1><a href={href}>{post.data.title}</a></h1>
@@ -49,22 +51,28 @@ const teaserHtml = renderTeaserMarkdown(teaser);
     padding: 0;
   }
 
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
   .hero-image {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.04);
-    filter: saturate(1.15);
+    transform: scale(1.03);
+    filter: saturate(1.08);
   }
 
   .overlay {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(9, 13, 20, 0.08) 0%, rgba(9, 13, 20, 0.92) 78%),
-      linear-gradient(120deg, rgba(248, 210, 71, 0.1), transparent 45%);
+      linear-gradient(180deg, rgba(8, 10, 15, 0.2), rgba(8, 10, 15, 0.9) 76%),
+      linear-gradient(120deg, rgba(243, 165, 58, 0.17), transparent 45%);
   }
 
   .hero-content {
@@ -77,16 +85,20 @@ const teaserHtml = renderTeaserMarkdown(teaser);
   }
 
   .hero h1 {
-    font-size: clamp(1.8rem, 4.4vw, 3.25rem);
-    line-height: 1.06;
+    font-size: clamp(1.8rem, 4.4vw, 3.1rem);
+    line-height: 1.05;
   }
 
   .hero h1 a {
     text-decoration: none;
   }
 
+  .hero h1 a:hover {
+    color: #ffddad;
+  }
+
   .desc {
-    color: #c6d3eb;
+    color: var(--text-secondary);
     max-width: 64ch;
   }
 </style>

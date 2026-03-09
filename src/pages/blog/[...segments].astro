@@ -114,7 +114,7 @@ const jsonLd = {
 
 <BaseLayout title={`${post.data.title} | Tech Mage`} description={description} canonical={canonical}>
   <article class="post-layout stack">
-    <figure class="hero-image-wrap">
+    <figure class="hero-image-wrap ui-raised-panel-strong fade-in">
       <img
         class="hero-image"
         src={heroImage.src}
@@ -134,7 +134,7 @@ const jsonLd = {
     </figure>
 
     <section class="content-grid">
-      <div class="article card stack">
+      <div class="article ui-content-container stack">
         <header class="stack meta-top">
           <div class="pill-row">
             <span class="pill">{formatContentDate(post.data.publishedAt)}</span>
@@ -157,8 +157,8 @@ const jsonLd = {
 
         {(prevPost || nextPost) && (
           <nav class="post-nav">
-            {prevPost ? <a href={withBase(resolvePermalink({ ...prevPost, collection: "posts" }))}>← {prevPost.data.title}</a> : <span></span>}
-            {nextPost ? <a href={withBase(resolvePermalink({ ...nextPost, collection: "posts" }))}>{nextPost.data.title} →</a> : <span></span>}
+            {prevPost ? <a class="ui-raised-panel nav-link" href={withBase(resolvePermalink({ ...prevPost, collection: "posts" }))}>← {prevPost.data.title}</a> : <span></span>}
+            {nextPost ? <a class="ui-raised-panel nav-link" href={withBase(resolvePermalink({ ...nextPost, collection: "posts" }))}>{nextPost.data.title} →</a> : <span></span>}
           </nav>
         )}
 
@@ -175,7 +175,7 @@ const jsonLd = {
       </div>
 
       <aside class="side">
-        <section class="card side-card stack">
+        <section class="ui-content-container side-card stack">
           <h3>Details</h3>
           <dl>
             <div>
@@ -198,7 +198,7 @@ const jsonLd = {
         </section>
 
         {tocItems.length > 0 && (
-          <section class="card side-card stack">
+          <section class="ui-content-container side-card stack">
             <h3>Table of Contents</h3>
             <ul>
               {tocItems.map((item) => (
@@ -209,7 +209,7 @@ const jsonLd = {
         )}
 
         {seriesPosts.length > 1 && (
-          <section class="card side-card stack">
+          <section class="ui-content-container side-card stack">
             <h3>Series</h3>
             <ul>
               {seriesPosts.map((entry) => (
@@ -252,42 +252,199 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
-  .post-layout { gap: 1.25rem; }
-  .hero-image-wrap { position: relative; width: min(100%, 1120px); margin: 0; border-radius: 16px; overflow: hidden; min-height: clamp(320px, 42vw, 500px); border: 1px solid var(--line); }
-  .hero-image { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; filter: saturate(1.15) contrast(1.03); }
-  .hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 12, 18, 0.12), rgba(8, 12, 18, 0.9) 72%); }
-  .hero-copy { position: relative; z-index: 1; height: 100%; align-content: end; padding: clamp(1rem, 2.2vw, 1.8rem); max-width: 68ch; }
-  .hero-copy h1 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.08; }
-  .content-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr) 290px; align-items: start; }
-  .article { padding: 1rem; gap: 1rem; }
-  .meta-top { padding-bottom: 0.7rem; border-bottom: 1px solid var(--line); }
-  .pill-row { display: flex; gap: 0.45rem; flex-wrap: wrap; }
-  .prose { display: grid; gap: 1rem; max-width: 70ch; }
-  .prose :global(p), .prose :global(ul), .prose :global(ol) { color: #d7e0f1; margin: 0; }
-  .prose :global(h2) { font-size: 1.36rem; margin: 0; padding-top: 0.95rem; border-top: 1px solid var(--line); }
-  .prose :global(h3) { font-size: 1.14rem; margin: 0.2rem 0 0; }
-  .prose :global(pre) { overflow: auto; border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem; background: #0d1422; }
-  .prose :global(blockquote) { margin: 0; border-left: 3px solid rgba(248, 210, 71, 0.6); padding-left: 0.85rem; color: #cad5ec; }
-  .prose :global(.prose-figure), .prose :global(figure) { margin: 0.9rem 0 1.1rem; display: grid; gap: 0.5rem; }
-  .prose :global(.prose-image), .prose :global(figure img), .prose :global(p > img) { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--line); background: #0b1220; }
-  .prose :global(.prose-caption), .prose :global(figcaption) { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.45; text-align: center; }
-  .tags-row { display: flex; gap: 0.55rem; flex-wrap: wrap; padding-top: 0.6rem; border-top: 1px solid var(--line); }
-  .tag { text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 0.25rem 0.62rem; color: var(--accent-soft); font-size: 0.85rem; background: rgba(248, 210, 71, 0.07); }
-  .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
-  .post-nav a { text-decoration: none; color: #dce6fb; }
-  .post-nav a:last-child { text-align: right; }
-  .related { border-top: 1px solid var(--line); padding-top: 0.8rem; }
-  .related ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; }
-  .related a { text-decoration: none; color: #d7e3ff; }
-  .side { position: sticky; top: 110px; display: grid; gap: 0.9rem; }
-  .side-card { gap: 0.7rem; }
-  .side-card h3 { font-size: 1rem; }
-  .side-card dl { display: grid; gap: 0.65rem; margin: 0; }
-  .side-card dt { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
-  .side-card dd { margin: 0.15rem 0 0; color: var(--text); }
-  .side-card ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.35rem; }
-  .side-card a { color: #c9d7f0; text-decoration: none; }
-  .side-card a:hover { color: var(--accent-soft); }
-  .toc-link.active { color: var(--accent-soft); text-shadow: 0 0 18px rgba(248, 210, 71, 0.2); }
-  @media (max-width: 980px) { .content-grid { grid-template-columns: 1fr; } .side { position: static; } .post-nav { grid-template-columns: 1fr; } .post-nav a:last-child { text-align: left; } }
+  .post-layout {
+    gap: 1.25rem;
+  }
+
+  .hero-image-wrap {
+    position: relative;
+    width: min(100%, 1120px);
+    margin: 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    min-height: clamp(320px, 42vw, 500px);
+    border: 1px solid var(--stroke-subtle);
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: saturate(1.12) contrast(1.03);
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 10, 15, 0.2), rgba(8, 10, 15, 0.9) 72%);
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    align-content: end;
+    padding: clamp(1rem, 2.2vw, 1.8rem);
+    max-width: 68ch;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.08;
+  }
+
+  .content-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    align-items: start;
+  }
+
+  .article {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .meta-top {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(151, 171, 202, 0.23);
+  }
+
+  .pill-row {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .tags-row {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(151, 171, 202, 0.23);
+  }
+
+  .tag {
+    text-decoration: none;
+    border: 1px solid rgba(243, 165, 58, 0.3);
+    border-radius: 999px;
+    padding: 0.24rem 0.62rem;
+    color: #ffd8ab;
+    font-size: 0.84rem;
+    background: rgba(243, 165, 58, 0.1);
+  }
+
+  .tag:hover {
+    background: rgba(243, 165, 58, 0.18);
+  }
+
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    border-top: 1px solid rgba(151, 171, 202, 0.23);
+    padding-top: 0.95rem;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    padding: 0.75rem 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .post-nav a:last-child {
+    text-align: right;
+  }
+
+  .related {
+    border-top: 1px solid rgba(151, 171, 202, 0.23);
+    padding-top: 0.85rem;
+  }
+
+  .related ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .related a {
+    text-decoration: none;
+    color: #f2c88f;
+  }
+
+  .side {
+    position: sticky;
+    top: 110px;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .side-card {
+    gap: 0.7rem;
+    padding: 0.9rem;
+  }
+
+  .side-card h3 {
+    font-size: 1rem;
+  }
+
+  .side-card dl {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+  }
+
+  .side-card dt {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .side-card dd {
+    margin: 0.15rem 0 0;
+    color: var(--text-secondary);
+  }
+
+  .side-card ul {
+    margin: 0;
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .side-card a {
+    color: #d3def2;
+    text-decoration: none;
+  }
+
+  .side-card a:hover {
+    color: #ffd7a7;
+  }
+
+  .toc-link.active {
+    color: #ffcf8f;
+    text-shadow: 0 0 14px rgba(243, 165, 58, 0.25);
+  }
+
+  @media (max-width: 980px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .side {
+      position: static;
+    }
+
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav a:last-child {
+      text-align: left;
+    }
+  }
 </style>

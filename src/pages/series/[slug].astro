@@ -43,7 +43,10 @@ const jsonLd = {
 
 <BaseLayout title={`Series: ${slug} | Tech Mage`} description={`Articles in the ${slug} series`}>
   <section class="stack">
-    <h1>Series: {slug}</h1>
+    <header class="page-hero stack">
+      <h1>Series: {slug}</h1>
+      <p class="muted">Structured sequence of connected essays and companion references.</p>
+    </header>
     {posts.map((post) => <PostCard post={post} />)}
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

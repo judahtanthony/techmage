@@ -1,0 +1,350 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/url";
+---
+
+<BaseLayout title="Style Guide | Tech Mage" description="Design system and component library for Tech Mage">
+  <section class="stack guide-shell">
+    <header class="page-hero stack">
+      <span class="badge">Design System</span>
+      <h1>Tech Mage Style Guide</h1>
+      <p class="muted">
+        Dark neumorphic editorial system for a personal engineering and AI publication. Use this page as living reference for visual consistency.
+      </p>
+      <nav class="anchor-nav" aria-label="Style guide sections">
+        <a class="pill" href="#foundations">Foundations</a>
+        <a class="pill" href="#surfaces">Surfaces</a>
+        <a class="pill" href="#layouts">Layouts</a>
+        <a class="pill" href="#navigation">Navigation</a>
+        <a class="pill" href="#components">Components</a>
+        <a class="pill" href="#content">Content</a>
+        <a class="pill" href="#composition">Composition</a>
+      </nav>
+    </header>
+
+    <section id="foundations" class="guide-section stack">
+      <h2>Foundations</h2>
+      <p class="muted">Color, type, spacing, radius, motion and icon guidance.</p>
+      <div class="swatches">
+        <article class="swatch ui-content-container"><h3>Page Background</h3><p><code>#090b0f</code></p></article>
+        <article class="swatch ui-content-container"><h3>Primary Surface</h3><p><code>#131923</code></p></article>
+        <article class="swatch ui-content-container"><h3>Secondary Surface</h3><p><code>#171f2c</code></p></article>
+        <article class="swatch ui-content-container"><h3>Inset Surface</h3><p><code>#0e141e</code></p></article>
+        <article class="swatch ui-content-container"><h3>Accent</h3><p><code>#f3a53a</code></p></article>
+        <article class="swatch ui-content-container"><h3>Focus Ring</h3><p><code>rgba(243,165,58,.5)</code></p></article>
+      </div>
+      <div class="foundation-grid">
+        <article class="ui-content-container stack pad">
+          <h3>Typography</h3>
+          <p style="font-size:2rem">Display: Space Grotesk</p>
+          <p>Body: Sora for compact technical readability.</p>
+          <p class="muted">Hierarchy favors strong headings with quiet body text.</p>
+        </article>
+        <article class="ui-content-container stack pad">
+          <h3>Spacing & Radii</h3>
+          <p><code>4, 8, 12, 16, 20, 24, 32, 40, 48</code>px rhythm.</p>
+          <p><code>0.72rem, 1rem, 1.25rem, 1.55rem</code> radii scale.</p>
+          <p class="muted">Use generous container spacing to keep a calm editorial tone.</p>
+        </article>
+        <article class="ui-content-container stack pad">
+          <h3>Motion & Icons</h3>
+          <p>Motion: 160-360ms subtle depth transitions only.</p>
+          <p>Icons: clean outline style, 16-20px, neutral by default.</p>
+          <p class="muted">Accent highlight reserved for active/important state.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="surfaces" class="guide-section stack">
+      <h2>Surfaces & Elevation</h2>
+      <div class="surface-grid">
+        <article class="ui-content-container pad"><h3>Flat Surface</h3><p class="muted">Low emphasis container.</p></article>
+        <article class="ui-raised-panel pad"><h3>Raised Surface</h3><p class="muted">Default card and module style.</p></article>
+        <article class="ui-inset-panel pad"><h3>Inset Surface</h3><p class="muted">Inputs, wells, and embedded modules.</p></article>
+        <article class="ui-accent-surface pad"><h3>Accent Surface</h3><p class="muted">High-emphasis prompt or CTA.</p></article>
+        <article class="ui-image-frame pad media-demo"><h3>Image Frame</h3><p class="muted">Media and thumbnails.</p></article>
+        <article class="ui-stat-tile"><p class="muted">Latency</p><h3>142ms</h3></article>
+      </div>
+    </section>
+
+    <section id="layouts" class="guide-section stack">
+      <h2>Layout Examples</h2>
+      <div class="layout-grid">
+        <article class="ui-content-container pad stack">
+          <h3>Hero Section</h3>
+          <div class="ui-raised-panel pad stack">
+            <span class="badge">Featured</span>
+            <h4>AI-assisted architecture without process collapse</h4>
+            <p class="muted">An editorial hero with subtle panel depth and high readability.</p>
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Article Grid</h3>
+          <div class="demo-grid">
+            <div class="ui-raised-panel pad"><p>Article card A</p></div>
+            <div class="ui-raised-panel pad"><p>Article card B</p></div>
+            <div class="ui-raised-panel pad"><p>Article card C</p></div>
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Two-column Editorial</h3>
+          <div class="two-col">
+            <div class="ui-content-container pad">Main narrative column</div>
+            <aside class="ui-content-container pad">Sidebar instrumentation</aside>
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Narrow Reading</h3>
+          <div class="narrow ui-content-container pad"><p class="muted">60-72ch measure for long-form reading comfort.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="navigation" class="guide-section stack">
+      <h2>Navigation Patterns</h2>
+      <div class="ui-content-container pad stack">
+        <div class="demo-nav">
+          <a class="ui-nav-item" href="#">Top Nav</a>
+          <a class="ui-nav-item" href="#">Section Nav</a>
+          <a class="ui-nav-item" href="#">Mobile Nav</a>
+          <button class="ui-icon-button" aria-label="Previous">◀</button>
+          <button class="ui-icon-button" aria-label="Next">▶</button>
+        </div>
+        <div class="demo-nav">
+          <a class="pill" href="#">Tag: AI</a>
+          <a class="pill" href="#">Tag: Engineering</a>
+          <a class="pill" href="#">Tag: Leadership</a>
+          <a class="pill" href="#">Page 1</a>
+          <a class="pill" href="#">Page 2</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="components" class="guide-section stack">
+      <h2>Components</h2>
+      <div class="component-grid">
+        <article class="ui-content-container pad stack">
+          <h3>Buttons</h3>
+          <div class="row">
+            <button class="ui-raised-button">Default</button>
+            <button class="ui-raised-button">Secondary</button>
+            <button class="ui-raised-button pressed">Pressed</button>
+            <button class="ui-icon-button" aria-label="Search">⌕</button>
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Inputs & Search</h3>
+          <input type="text" placeholder="Search notes" />
+          <textarea placeholder="Thought capture"></textarea>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Badges & Pills</h3>
+          <div class="row">
+            <span class="badge">Featured</span>
+            <span class="pill">Metadata</span>
+            <span class="pill">Reading time</span>
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Callout</h3>
+          <div class="ui-accent-surface pad">
+            <strong>Operational note:</strong> Keep AI-generated output reviewable before publishing.
+          </div>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Quote</h3>
+          <blockquote>Leadership is deciding what not to optimize.</blockquote>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Code Block</h3>
+          <pre><code>pnpm run content:prepare
+pnpm run build</code></pre>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Table</h3>
+          <table>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Deploy frequency</td><td>Daily</td></tr>
+              <tr><td>Review depth</td><td>High</td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="ui-content-container pad stack">
+          <h3>Stat / Empty / Loading</h3>
+          <div class="row">
+            <div class="ui-stat-tile"><p class="muted">Published</p><strong>58</strong></div>
+            <div class="ui-stat-tile"><p class="muted">Drafts</p><strong>14</strong></div>
+          </div>
+          <div class="ui-inset-panel pad"><p class="muted">No results for this query.</p></div>
+          <div class="skeleton"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="content" class="guide-section stack">
+      <h2>Content Styling</h2>
+      <article class="ui-content-container pad prose">
+        <h1>Heading 1</h1>
+        <h2>Heading 2</h2>
+        <h3>Heading 3</h3>
+        <p>
+          Paragraph styling keeps strong contrast without glare. <a href="#">Link example</a> and
+          <code>inline code</code> demonstrate narrative emphasis.
+        </p>
+        <blockquote>Pull quote style for reflective or strategic emphasis.</blockquote>
+        <ul>
+          <li>Ordered and unordered list rhythm remains compact.</li>
+          <li>Spacing is optimized for long reading sessions.</li>
+        </ul>
+        <pre><code>const signal = "clarity";
+if (signal) publish();</code></pre>
+      </article>
+    </section>
+
+    <section id="composition" class="guide-section stack">
+      <h2>Composition Examples</h2>
+      <article class="ui-raised-panel-strong pad stack">
+        <span class="badge">Home Hero</span>
+        <h3>Build systems that stay comprehensible under AI acceleration</h3>
+        <p class="muted">A complete hero composition with title, context, and call to action.</p>
+        <a class="ui-raised-button" href={withBase("/")}>Open home</a>
+      </article>
+
+      <div class="composition-grid">
+        <article class="ui-content-container pad stack">
+          <h3>Featured Article Strip</h3>
+          <div class="ui-image-frame strip"></div>
+          <p class="muted">Image + metadata + action row.</p>
+        </article>
+
+        <article class="ui-content-container pad stack">
+          <h3>About Panel</h3>
+          <p>
+            Judah is an engineering leader writing about resilient architecture, operational craft, and thoughtful technical execution.
+          </p>
+          <div class="row">
+            <span class="pill">Engineering</span>
+            <span class="pill">Leadership</span>
+            <span class="pill">AI</span>
+          </div>
+        </article>
+
+        <article class="ui-content-container pad stack">
+          <h3>AI Command Module</h3>
+          <div class="ui-inset-panel pad stack">
+            <p class="muted">Agent status</p>
+            <strong>Ready</strong>
+            <div class="row">
+              <button class="ui-raised-button">Run index</button>
+              <button class="ui-raised-button">Open logs</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .guide-shell {
+    gap: 1.25rem;
+  }
+
+  .guide-section {
+    scroll-margin-top: 8.5rem;
+  }
+
+  .anchor-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .swatches,
+  .surface-grid,
+  .component-grid,
+  .foundation-grid,
+  .layout-grid,
+  .composition-grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .swatch,
+  .pad {
+    padding: 0.85rem;
+  }
+
+  .swatch h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .demo-grid {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .demo-grid > * {
+    padding: 0.75rem;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .narrow {
+    max-width: 70ch;
+  }
+
+  .media-demo {
+    min-height: 100px;
+  }
+
+  .demo-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .skeleton {
+    height: 1.1rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(122, 141, 173, 0.1), rgba(188, 206, 236, 0.22), rgba(122, 141, 173, 0.1));
+    background-size: 220% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  .strip {
+    min-height: 110px;
+    background: linear-gradient(120deg, rgba(243, 165, 58, 0.22), rgba(88, 108, 145, 0.2));
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -20% 0;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .two-col,
+    .demo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

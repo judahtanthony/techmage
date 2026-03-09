@@ -13,14 +13,14 @@ const teaser = note.content.slice(0, 220).trim();
 const thoughtHref = withBase(note.url);
 ---
 
-<article id={note.id} class="card note-card stack">
+<article id={note.id} class="card note-card stack fade-in">
   <header class="note-head">
     <h3><a href={thoughtHref}>{note.authorName}</a></h3>
     <div class="note-meta">
       <span class="pill">{formatContentDate(note.publishedAt)}</span>
     </div>
   </header>
-  <p>{teaser}{note.content.length > 220 ? "..." : ""}</p>
+  <p class="muted">{teaser}{note.content.length > 220 ? "..." : ""}</p>
   {note.tags.length > 0 && (
     <p class="tags">{note.tags.map((tag) => <a href={withBase(`/tag/${slugifyTag(tag)}/`)}>#{tag}</a>)}</p>
   )}
@@ -28,7 +28,14 @@ const thoughtHref = withBase(note.url);
 
 <style>
   .note-card {
-    gap: 0.65rem;
+    gap: 0.72rem;
+    padding: 0.9rem;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .note-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(243, 165, 58, 0.28);
   }
 
   .note-head {
@@ -47,6 +54,10 @@ const thoughtHref = withBase(note.url);
     text-decoration: none;
   }
 
+  h3 a:hover {
+    color: #ffd5a0;
+  }
+
   .note-meta {
     display: flex;
     gap: 0.4rem;
@@ -54,7 +65,6 @@ const thoughtHref = withBase(note.url);
   }
 
   .tags {
-    margin: 0;
     display: flex;
     gap: 0.55rem;
     flex-wrap: wrap;
@@ -62,7 +72,7 @@ const thoughtHref = withBase(note.url);
 
   .tags a {
     text-decoration: none;
-    color: var(--accent-soft);
-    font-size: 0.85rem;
+    color: #f5c788;
+    font-size: 0.84rem;
   }
 </style>

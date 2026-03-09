@@ -18,7 +18,10 @@ const jsonLd = {
 
 <BaseLayout title="Blog | Tech Mage" description="All blog posts">
   <section class="stack">
-    <h1>Blog</h1>
+    <header class="page-hero stack">
+      <h1>Blog</h1>
+      <p class="muted">Long-form writing on engineering systems, leadership craft, and practical AI implementation.</p>
+    </header>
     {posts.map((post) => <PostCard post={post} />)}
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

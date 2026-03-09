@@ -5,10 +5,15 @@ import { siteConfig } from "../site.config";
 
 <BaseLayout title="Search | Tech Mage" description="Search articles and thoughts">
   <section class="stack search-page">
-    <h1>Search</h1>
-    <form id="search-form" action="" method="get" class="card search-shell" data-base={siteConfig.basePath}>
+    <header class="page-hero stack">
+      <h1>Search</h1>
+      <p class="muted">Find articles, tags, categories, and thought fragments across the archive.</p>
+    </header>
+
+    <form id="search-form" action="" method="get" class="search-shell ui-content-container" data-base={siteConfig.basePath}>
       <input id="search-input" name="q" type="search" placeholder="Search articles and thoughts" />
     </form>
+
     <div id="results" class="stack search-results"></div>
   </section>
 
@@ -45,11 +50,15 @@ import { siteConfig } from "../site.config";
     }
 
     function render(rows) {
+      if (!rows.length) {
+        resultsEl.innerHTML = '<article class="card empty"><h3>No results yet</h3><p class="muted">Try broader terms, category names, or tag fragments.</p></article>';
+        return;
+      }
       resultsEl.innerHTML = rows
         .map((row) => {
           const href = `${normalizedBase}${row.url}`;
           const meta = [row.category, row.tags].filter(Boolean).join(" • ");
-          return `<article class=\"card result\"><a class=\"title\" href=\"${href}\">${row.title}</a><p class=\"muted\">${meta}</p></article>`;
+          return `<article class=\"card result fade-in\"><a class=\"title\" href=\"${href}\">${row.title}</a><p class=\"muted\">${meta}</p></article>`;
         })
         .join("");
     }
@@ -69,6 +78,7 @@ import { siteConfig } from "../site.config";
     const initial = params.get("q") || "";
     input.value = initial;
     if (initial) runSearch(initial);
+    else render([]);
 
     let timer;
     input.addEventListener("input", (e) => {
@@ -80,42 +90,42 @@ import { siteConfig } from "../site.config";
 
 <style>
   .search-page {
-    gap: 0.85rem;
+    gap: 0.95rem;
   }
 
   .search-shell {
-    padding: 0.7rem;
-    background: linear-gradient(165deg, rgba(20, 33, 55, 0.8), rgba(12, 20, 33, 0.98));
+    padding: 0.65rem;
   }
 
   .search-shell input {
-    width: 100%;
-    border-radius: 11px;
-    border: 1px solid var(--line);
-    background: rgba(12, 20, 34, 0.95);
-    color: var(--text);
-    font: inherit;
-    padding: 0.8rem 0.9rem;
-  }
-
-  .search-shell input:focus {
-    outline: none;
-    border-color: rgba(248, 210, 71, 0.55);
-    box-shadow: 0 0 0 3px rgba(248, 210, 71, 0.15);
+    min-height: 3.1rem;
   }
 
   .search-results {
-    gap: 0.75rem;
+    gap: 0.78rem;
   }
 
   .result {
     display: grid;
-    gap: 0.4rem;
+    gap: 0.46rem;
+    padding: 1rem;
   }
 
   .result .title {
     text-decoration: none;
     font-weight: 600;
-    color: #e9effd;
+    color: var(--text-primary);
+  }
+
+  .result .title:hover {
+    color: #ffd6a2;
+  }
+
+  .empty {
+    padding: 1rem;
+  }
+
+  .empty h3 {
+    margin-bottom: 0.32rem;
   }
 </style>

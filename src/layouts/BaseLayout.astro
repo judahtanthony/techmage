@@ -19,6 +19,7 @@ const {
 const homeHref = withBase("/");
 const notesHref = withBase("/notes/");
 const searchHref = withBase("/search/");
+const styleGuideHref = withBase("/style-guide/");
 const canonicalHref = canonical || new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
 const categories = (await getCollection("categories")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
@@ -39,29 +40,38 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
   <body>
     <div class="site-wrap">
       <header class="topbar">
-        <div class="topbar-inner">
+        <div class="topbar-inner ui-raised-panel">
           <a class="logo" href={homeHref} aria-label="Tech Mage home">
             <img class="logo-mark" src={withBase("/brand/tech-mage-icon.svg")} alt="" width="24" height="24" />
             <span>Tech Mage</span>
           </a>
-          <nav class="primary-links">
+          <nav class="primary-links" aria-label="Primary navigation">
             {categories.map((category) => (
-              <a href={withBase(`/category/${category.data.slug}/`)}>{category.data.name}</a>
+              <a class="ui-nav-item" href={withBase(`/category/${category.data.slug}/`)}>{category.data.name}</a>
             ))}
-            <a href={notesHref}>Thoughts</a>
+            <a class="ui-nav-item" href={notesHref}>Thoughts</a>
+            <a class="ui-nav-item" href={styleGuideHref}>Style Guide</a>
           </nav>
-          <form class="search" id="nav-search-form" action={searchHref} method="get" autocomplete="off">
+          <form class="search ui-inset-panel" id="nav-search-form" action={searchHref} method="get" autocomplete="off">
             <input id="nav-search-input" type="search" name="q" placeholder="Search title, category, tags" />
-            <button class="search-toggle" id="nav-search-toggle" type="button" aria-label="Open search">
+            <button class="search-toggle ui-icon-button" id="nav-search-toggle" type="button" aria-label="Open search">
               <img src={withBase("/icons/search-flaticon-style.svg")} alt="" />
             </button>
             <div id="nav-search-suggest" class="suggest hidden" role="listbox" aria-label="Search suggestions"></div>
           </form>
         </div>
       </header>
+
       <main>
         <slot />
       </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner ui-content-container">
+          <p class="muted">Tech Mage · Engineering, AI, leadership, and durable writing.</p>
+          <p class="muted">Designed as a calm control surface for deep technical thinking.</p>
+        </div>
+      </footer>
     </div>
 
     <script is:inline define:vars={{ base: siteConfig.basePath }}>
@@ -232,50 +242,44 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
     position: sticky;
     top: 0;
     z-index: 20;
+    padding: 0.8rem 1rem;
     backdrop-filter: blur(10px);
-    background: rgba(6, 10, 17, 0.84);
-    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(7, 10, 15, 0.93), rgba(7, 10, 15, 0.7));
   }
 
   .topbar-inner {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 0.85rem 1.25rem;
+    padding: 0.7rem 0.9rem;
     display: grid;
-    gap: 0.85rem;
+    gap: 0.8rem;
     align-items: center;
     grid-template-columns: auto 1fr auto;
+    border-radius: 1.1rem;
   }
 
   .logo {
-    font-size: 1.45rem;
+    font-size: 1.3rem;
+    color: #f8d5a7;
     text-decoration: none;
-    color: var(--accent-soft);
     display: inline-flex;
     align-items: center;
     gap: 0.52rem;
+    white-space: nowrap;
   }
 
   .logo-mark {
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 1.2rem;
+    height: 1.2rem;
     display: block;
+    filter: drop-shadow(0 0 10px rgba(243, 165, 58, 0.25));
   }
 
   .primary-links {
     display: flex;
-    gap: 1.1rem;
     align-items: center;
     flex-wrap: wrap;
-  }
-
-  .primary-links a {
-    text-decoration: none;
-    color: var(--muted);
-  }
-
-  .primary-links a:hover {
-    color: var(--text);
+    gap: 0.45rem;
   }
 
   .search {
@@ -283,34 +287,27 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: rgba(17, 26, 42, 0.95);
-    width: 2.3rem;
-    min-width: 2.3rem;
-    height: 2.3rem;
+    width: 2.45rem;
+    min-width: 2.45rem;
+    height: 2.45rem;
     overflow: visible;
-    transition: width 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: width var(--transition-base), border-color var(--transition-fast);
   }
 
   .search-toggle {
     all: unset;
     position: absolute;
-    right: 0;
-    top: 0;
+    inset: 0;
+    cursor: pointer;
     display: grid;
     place-items: center;
-    width: 2.3rem;
-    height: 2.3rem;
-    cursor: pointer;
-    color: var(--muted);
   }
 
   .search-toggle img {
     width: 1rem;
     height: 1rem;
-    opacity: 1;
     filter: brightness(0) invert(1);
+    opacity: 0.95;
   }
 
   .search input {
@@ -318,21 +315,17 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
     opacity: 0;
     pointer-events: none;
     border: none;
-    outline: none;
-    border-radius: 999px;
-    padding: 0.52rem 2.3rem 0.52rem 0.82rem;
-    margin-left: 0;
+    box-shadow: none;
+    padding: 0.52rem 2.6rem 0.52rem 0.95rem;
+    margin: 0;
     background: transparent;
-    color: var(--text);
-    font: inherit;
-    transition: width 0.2s ease, opacity 0.16s ease, margin-left 0.2s ease;
+    transition: width var(--transition-base), opacity var(--transition-fast);
   }
 
   .search.expanded,
   .search:focus-within {
     width: min(360px, 46vw);
-    box-shadow: 0 0 0 2px rgba(248, 210, 71, 0.08);
-    border-color: rgba(248, 210, 71, 0.35);
+    border-color: rgba(243, 165, 58, 0.35);
   }
 
   .search.expanded input,
@@ -340,40 +333,30 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
     width: 100%;
     opacity: 1;
     pointer-events: auto;
-    margin-left: 0.15rem;
-  }
-
-  .search input::placeholder {
-    color: var(--muted);
   }
 
   .suggest {
     position: absolute;
-    top: calc(100% + 0.4rem);
+    top: calc(100% + 0.5rem);
     left: 0;
     right: 0;
-    padding: 0.35rem;
-    background: rgba(12, 20, 36, 0.98);
-    border: 1px solid rgba(74, 100, 145, 0.65);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 18px 40px rgba(1, 6, 16, 0.58), 0 0 0 1px rgba(17, 30, 52, 0.7) inset;
-    max-height: 280px;
+    padding: 0.36rem;
+    border: 1px solid var(--stroke-subtle);
+    border-radius: 0.95rem;
+    background: linear-gradient(170deg, rgba(18, 25, 36, 0.98), rgba(11, 16, 24, 1));
+    box-shadow: var(--shadow-raised-lg);
+    max-height: 290px;
     overflow-y: auto;
   }
 
   .suggest :global(.item) {
     appearance: none;
     width: 100%;
-    border: none;
+    border: 0;
     text-align: left;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr;
     padding: 0.58rem 0.65rem;
-    text-decoration: none;
-    border-radius: 9px;
-    color: #dfe9fb;
+    border-radius: 0.7rem;
+    color: var(--text-secondary);
     background: transparent;
     cursor: pointer;
     font: inherit;
@@ -386,26 +369,50 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
 
   .suggest :global(.item:hover),
   .suggest :global(.item.active) {
-    background: rgba(68, 115, 193, 0.34);
-    color: #ffffff;
+    color: var(--text-primary);
+    background: rgba(243, 165, 58, 0.17);
   }
 
   .hidden {
     display: none;
   }
 
-  @media (max-width: 940px) {
+  .site-footer {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.35rem 1.5rem;
+  }
+
+  .footer-inner {
+    padding: 1rem 1.15rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 980px) {
+    .topbar {
+      padding: 0.7rem 0.8rem;
+    }
+
     .topbar-inner {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
     }
+
     .search {
       width: 100%;
+      min-width: 100%;
       justify-self: stretch;
     }
+
     .search.expanded,
     .search:focus-within {
       width: 100%;
+    }
+
+    .site-footer {
+      padding: 0 1rem 1.2rem;
     }
   }
 </style>

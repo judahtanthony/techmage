@@ -15,7 +15,10 @@ const jsonLd = {
 
 <BaseLayout title="Thoughts | Tech Mage" description="Short thoughts and stream updates">
   <section class="stack">
-    <h1>Thoughts</h1>
+    <header class="page-hero stack">
+      <h1>Thoughts</h1>
+      <p class="muted">Fast notes, observations, and in-progress fragments from ongoing work.</p>
+    </header>
     {notes.map((note) => <NoteCard note={note} />)}
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

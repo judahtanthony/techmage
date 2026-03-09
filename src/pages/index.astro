@@ -20,8 +20,8 @@ const latestNotes = notes.slice(0, 8);
 ---
 
 <BaseLayout title="Tech Mage" description="Tech Mage article and thought stream">
-  <div class="stack">
-    {featured ? <HeroPost post={featured} /> : <p class="card">No published posts yet.</p>}
+  <div class="stack home-shell">
+    {featured ? <HeroPost post={featured} /> : <p class="card empty">No published posts yet.</p>}
 
     <section class="grid-2">
       <div class="stack">
@@ -40,26 +40,47 @@ const latestNotes = notes.slice(0, 8);
       </aside>
     </section>
 
-    <section class="card cta stack">
+    <section class="ui-accent-surface cta stack">
       <span class="badge">Build in Public</span>
       <h2>Tech Mage is your own channel. Own the feed, own the archive.</h2>
       <p class="muted">
         Start with quick thoughts, grow them into full essays, and keep every idea searchable.
       </p>
+      <div class="cta-links">
+        <a class="ui-raised-button" href={withBase("/blog/")}>Read essays</a>
+        <a class="ui-raised-button" href={withBase("/search/")}>Search archive</a>
+      </div>
     </section>
   </div>
 </BaseLayout>
 
 <style>
+  .home-shell {
+    gap: 1.25rem;
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  }
+
+  .empty {
+    padding: 1rem;
+  }
+
   .cta {
-    padding: 1.25rem;
-    background:
-      linear-gradient(140deg, rgba(248, 210, 71, 0.08), rgba(69, 139, 255, 0.12)),
-      rgba(16, 24, 39, 0.94);
+    padding: 1.2rem;
+    gap: 0.72rem;
   }
 
   .cta h2 {
     font-size: clamp(1.2rem, 2.6vw, 1.9rem);
     max-width: 38ch;
+  }
+
+  .cta-links {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
   }
 </style>

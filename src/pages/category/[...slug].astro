@@ -61,10 +61,12 @@ const jsonLd = {
 
 <BaseLayout title={`${title} | Category | Tech Mage`} description={description}>
   <section class="stack">
-    <h1>{title}</h1>
-    {categoryMeta?.description && <p class="muted">{categoryMeta.description}</p>}
+    <header class="page-hero stack">
+      <h1>{title}</h1>
+      {categoryMeta?.description && <p class="muted">{categoryMeta.description}</p>}
+    </header>
 
-    {featured ? <HeroPost post={featured} /> : <p class="card">No posts yet.</p>}
+    {featured ? <HeroPost post={featured} /> : <p class="card empty">No posts yet.</p>}
 
     <section class="grid-2">
       <div class="stack">
@@ -72,16 +74,22 @@ const jsonLd = {
           <h2>Latest Articles</h2>
           <a class="pill" href={withBase("/blog/")}>View all</a>
         </div>
-        {latestPosts.length ? latestPosts.map((post) => <PostCard post={post} />) : <p class="card">No additional posts yet.</p>}
+        {latestPosts.length ? latestPosts.map((post) => <PostCard post={post} />) : <p class="card empty">No additional posts yet.</p>}
       </div>
       <aside class="stack">
         <div class="section-head">
           <h2>Latest Thoughts</h2>
           <a class="pill" href={withBase("/notes/")}>View all</a>
         </div>
-        {latestNotes.length ? latestNotes.map((note) => <NoteCard note={note} />) : <p class="card">No thoughts yet.</p>}
+        {latestNotes.length ? latestNotes.map((note) => <NoteCard note={note} />) : <p class="card empty">No thoughts yet.</p>}
       </aside>
     </section>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 </BaseLayout>
+
+<style>
+  .empty {
+    padding: 1rem;
+  }
+</style>
