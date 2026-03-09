@@ -19,8 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SITE_NAME: ${{ vars.SITE_NAME || 'Tech Mage' }}
-      SITE_URL: ${{ vars.SITE_URL || 'https://judahtanthony.github.io' }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://judahtanthony.com' }}
       SITE_BASE_PATH: ${{ vars.SITE_BASE_PATH || '/' }}
+      SITE_CANONICAL_URL: ${{ vars.SITE_CANONICAL_URL || 'https://judahtanthony.com' }}
+      SITE_CANONICAL_BASE_PATH: ${{ vars.SITE_CANONICAL_BASE_PATH || '/' }}
+      SITE_NOINDEX: ${{ vars.SITE_NOINDEX || 'false' }}
       SITE_INCLUDE_DRAFTS: ${{ vars.SITE_INCLUDE_DRAFTS || 'false' }}
       SITE_TIME_ZONE: ${{ vars.SITE_TIME_ZONE || 'America/New_York' }}
       SITE_DEFAULT_AUTHOR: ${{ vars.SITE_DEFAULT_AUTHOR || 'judah-t-anthony' }}

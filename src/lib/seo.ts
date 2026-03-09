@@ -28,19 +28,19 @@ export function resolveSocialImage(image: string | null | undefined): string {
 
   if (!siteConfig.cloudflare.enabled) return source;
 
-  const resizeBase = new URL(siteConfig.cloudflare.imageResizePath, siteConfig.siteUrl).toString();
+  const resizeBase = new URL(siteConfig.cloudflare.imageResizePath, siteConfig.canonicalSiteUrl).toString();
   const opts = `width=1200,height=630,fit=cover,quality=${siteConfig.cloudflare.imageQuality},format=auto`;
   return `${resizeBase}/${opts}/${source}`;
 }
 
 export function toCanonicalUrl(pathname: string): string {
   if (/^https?:\/\//i.test(pathname)) return pathname;
-  const basePath = normalizeBasePath(siteConfig.basePath);
+  const basePath = normalizeBasePath(siteConfig.canonicalBasePath);
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const withBase = basePath === "/" || normalized.startsWith(basePath)
     ? normalized
     : `${basePath}${normalized}`;
-  return new URL(withBase, siteConfig.siteUrl).toString();
+  return new URL(withBase, siteConfig.canonicalSiteUrl).toString();
 }
 
 export function resolveCanonicalUrl(permalink: string, explicitCanonical?: string): string {

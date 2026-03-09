@@ -43,4 +43,7 @@ Image lifecycle notes are in `/Users/janthony/src/tech-mage/docs/image-policy.md
 - Set:
   - `SITE_URL` to your production domain (e.g. `https://techmage.example`)
   - `SITE_BASE_PATH` to `/` for custom domain, or `/<repo-name>` for GitHub project pages
+  - `SITE_CANONICAL_URL` to your primary indexed domain (e.g. `https://judahtanthony.com`)
+  - `SITE_CANONICAL_BASE_PATH` to canonical base path (usually `/`)
+  - `SITE_NOINDEX=true` in public staging environments
   - `CLOUDFLARE_IMAGE_RESIZE_ENABLED=true` when the domain is proxied by Cloudflare

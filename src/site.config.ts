@@ -2,6 +2,9 @@ export type SiteConfig = {
   siteName: string;
   siteUrl: string;
   basePath: string;
+  canonicalSiteUrl: string;
+  canonicalBasePath: string;
+  noIndex: boolean;
   includeDrafts: boolean;
   defaultTimeZone: string;
   defaultAuthorSlug: string;
@@ -31,8 +34,11 @@ function parseNumber(value: string | undefined, fallback: number): number {
 
 export const siteConfig: SiteConfig = {
   siteName: process.env.SITE_NAME || "Tech Mage",
-  siteUrl: process.env.SITE_URL || "https://judahtanthony.github.io",
+  siteUrl: process.env.SITE_URL || "https://judahtanthony.com",
   basePath: process.env.SITE_BASE_PATH || "/",
+  canonicalSiteUrl: process.env.SITE_CANONICAL_URL || "https://judahtanthony.com",
+  canonicalBasePath: process.env.SITE_CANONICAL_BASE_PATH || "/",
+  noIndex: parseBoolean(process.env.SITE_NOINDEX, false),
   includeDrafts: parseBoolean(process.env.SITE_INCLUDE_DRAFTS, false),
   defaultTimeZone: process.env.SITE_TIME_ZONE || "America/New_York",
   defaultAuthorSlug: process.env.SITE_DEFAULT_AUTHOR || "judah-t-anthony",

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import "../styles/global.css";
 import { siteConfig } from "../site.config";
 import { withBase } from "../lib/url";
+import { toCanonicalUrl } from "../lib/seo";
 
 type Props = {
   title?: string;
@@ -20,7 +21,7 @@ const homeHref = withBase("/");
 const notesHref = withBase("/notes/");
 const searchHref = withBase("/search/");
 const styleGuideHref = withBase("/style-guide/");
-const canonicalHref = canonical || new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
+const canonicalHref = canonical || toCanonicalUrl(Astro.url.pathname);
 const categories = (await getCollection("categories")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
@@ -30,6 +31,7 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {siteConfig.noIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalHref} />
     <link rel="icon" href={withBase("/brand/tech-mage-icon.svg")} type="image/svg+xml" />
     <link rel="shortcut icon" href={withBase("/brand/tech-mage-icon.svg")} />
