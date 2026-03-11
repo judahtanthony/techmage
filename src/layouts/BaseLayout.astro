@@ -299,10 +299,14 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
   .search-toggle {
     all: unset;
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    width: 2.45rem;
+    height: 2.45rem;
     cursor: pointer;
     display: grid;
     place-items: center;
+    z-index: 1;
   }
 
   .search-toggle img {

@@ -27,8 +27,18 @@ import { siteConfig } from "../site.config";
     const input = document.getElementById("search-input");
     const resultsEl = document.getElementById("results");
     let loaded = false;
+    let lunrLib;
     let idx;
     let docs = [];
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
     async function ensureLunrLoaded() {
       if (loaded) return;
@@ -37,6 +47,7 @@ import { siteConfig } from "../site.config";
         fetch(corpusPath).then((r) => r.json()),
       ]);
 
+      lunrLib = lunr;
       docs = corpus;
       idx = lunr(function () {
         this.ref("id");
@@ -57,10 +68,37 @@ import { siteConfig } from "../site.config";
       resultsEl.innerHTML = rows
         .map((row) => {
           const href = `${normalizedBase}${row.url}`;
+          const safeHref = escapeHtml(href);
+          const safeTitle = escapeHtml(row.title);
           const meta = [row.category, row.tags].filter(Boolean).join(" • ");
-          return `<article class=\"card result fade-in\"><a class=\"title\" href=\"${href}\">${row.title}</a><p class=\"muted\">${meta}</p></article>`;
+          const safeMeta = escapeHtml(meta);
+          return `<article class=\"card result fade-in\"><a class=\"title\" href=\"${safeHref}\">${safeTitle}</a><p class=\"muted\">${safeMeta}</p></article>`;
         })
         .join("");
+    }
+
+    function searchIndex(query) {
+      const terms = query
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      if (!terms.length) return [];
+
+      return idx.query((builder) => {
+        for (const term of terms) {
+          builder.term(term, {
+            boost: 10,
+            usePipeline: true,
+          });
+          builder.term(term, {
+            boost: 2,
+            wildcard: lunrLib.Query.wildcard.TRAILING,
+            usePipeline: true,
+          });
+        }
+      });
     }
 
     async function runSearch(query) {
@@ -70,7 +108,7 @@ import { siteConfig } from "../site.config";
         return;
       }
       await ensureLunrLoaded();
-      const hits = idx.search(`${q}*`);
+      const hits = searchIndex(q);
       const byId = new Map(docs.map((d) => [d.id, d]));
       render(hits.map((h) => byId.get(h.ref)).filter(Boolean));
     }
@@ -105,27 +143,27 @@ import { siteConfig } from "../site.config";
     gap: 0.78rem;
   }
 
-  .result {
+  :global(.result) {
     display: grid;
     gap: 0.46rem;
     padding: 1rem;
   }
 
-  .result .title {
+  :global(.result .title) {
     text-decoration: none;
     font-weight: 600;
     color: var(--text-primary);
   }
 
-  .result .title:hover {
+  :global(.result .title:hover) {
     color: #ffd6a2;
   }
 
-  .empty {
+  :global(.search-results .empty) {
     padding: 1rem;
   }
 
-  .empty h3 {
+  :global(.search-results .empty h3) {
     margin-bottom: 0.32rem;
   }
 </style>
