@@ -2,7 +2,7 @@
 title: Hiring Software Engineers Is About More Than Just Coding Skills
 publishedAt: 2023-01-05 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_TCfPxNdIRW6GiImHiLtLLw.webp
+image: /images/posts/effective-project-management.png
 excerpt: Scrum, Kanban, Gantt, and Jira tickets. The world of project management is full of a bewilderment of tools and frameworks. Organizing a large team to bring a complex, abstract idea to fruition takes skill, experience, and just a bit of luck. Don’t worry. I will walk you through all the considerations in managing a software engineering project.
 tags: 
   - Project Management

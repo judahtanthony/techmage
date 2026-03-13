@@ -2,7 +2,7 @@
 title: Create Goals; Craft Routines
 publishedAt: 2023-05-13 00:00:00
 author: judah-t-anthony
-image: 
+image: /images/posts/create-goals-craft-routines.png
 excerpt: The Art of Open Water Swimming
 tags: 
   - Productivity

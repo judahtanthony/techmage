@@ -20,7 +20,6 @@ const {
 const homeHref = withBase("/");
 const notesHref = withBase("/notes/");
 const searchHref = withBase("/search/");
-const styleGuideHref = withBase("/style-guide/");
 const canonicalHref = canonical || toCanonicalUrl(Astro.url.pathname);
 const categories = (await getCollection("categories")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
@@ -52,7 +51,6 @@ const categories = (await getCollection("categories")).sort((a, b) => a.data.nam
               <a class="ui-nav-item" href={withBase(`/category/${category.data.slug}/`)}>{category.data.name}</a>
             ))}
             <a class="ui-nav-item" href={notesHref}>Thoughts</a>
-            <a class="ui-nav-item" href={styleGuideHref}>Style Guide</a>
           </nav>
           <form class="search ui-inset-panel" id="nav-search-form" action={searchHref} method="get" autocomplete="off">
             <input id="nav-search-input" type="search" name="q" placeholder="Search title, category, tags" />

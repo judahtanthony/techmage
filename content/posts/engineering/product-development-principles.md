@@ -2,7 +2,7 @@
 title: Product Development Principles
 publishedAt: 2022-08-12 00:00:00
 author: judah-t-anthony
-image: /images/posts/0_DoRJDZ8twKci051P.webp
+image: /images/posts/product-development-principles.png
 excerpt: Everything should be made as simple as possible, but not simpler. — _Albert Einstein (kind of)_
 tags: 
   - Product Management

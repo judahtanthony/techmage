@@ -2,7 +2,7 @@
 
 Current state:
 
-- During scaffolding and development, fallback images are served from `https://www.placecats.com/`.
+- During scaffolding and development, fallback images are served from `https://placehold.co/`.
 - This keeps pages visually complete while real media is curated.
 
 Target production policy:
@@ -18,4 +18,3 @@ Rendering rules:
 - Hero image target ratio: `16:9`.
 - Social image target ratio: `1200x630`.
 - Use explicit `alt` text for all author-provided images.
-

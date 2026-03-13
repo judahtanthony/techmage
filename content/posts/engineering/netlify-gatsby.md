@@ -2,7 +2,7 @@
 title: Netlify + Gatsby
 publishedAt: 2019-11-13 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_09uLIQ8OMgFVR74vryUw1A.webp
+image: /images/posts/netlify-gatsby.png
 excerpt: Fast, secure, easy, and free way to get started with JAM-stacks
 tags: 
   - Github

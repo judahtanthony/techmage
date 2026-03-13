@@ -2,6 +2,7 @@
 title: Optimizing APIs by Design
 publishedAt: 2019-02-27 00:00:00
 author: judah-t-anthony
+image: /images/posts/optimizing-apis-by-design.png
 excerpt: REST, GraphQL, JSON:API, oh my!
 tags: 
   - GraphQL

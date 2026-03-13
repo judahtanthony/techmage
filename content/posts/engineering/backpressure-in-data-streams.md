@@ -2,7 +2,7 @@
 title: Backpressure in data streams
 publishedAt: 2019-11-13 00:00:00
 author: judah-t-anthony
-image: 
+image: /images/posts/backpressure-in-data-streams.png
 excerpt: 
 tags: 
   - Software Development

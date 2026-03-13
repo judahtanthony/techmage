@@ -2,7 +2,7 @@
 title: Fostering Technical Excellence Through Creative Collaboration
 publishedAt: 2022-06-09 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_-FkC0RTsnVjMCp628v1S7A.webp
+image: /images/posts/fostering-technical-excellence-through-creative-collaboration.png
 tags: 
   - Growth
   - Innovation

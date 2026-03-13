@@ -2,7 +2,7 @@
 title: KPI-driven Leadership
 publishedAt: 2022-06-24 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_drYpCk_cdD80wkUQfPSxTg.webp
+image: /images/posts/kpi-driven-leadership.png
 excerpt: Key performance indicators (KPIs) are a powerful tool, but they are just that, a tool.
 tags: 
   - Leadership Development

@@ -2,7 +2,7 @@
 title: Hiring Software Engineers Is About More Than Just Coding Skills
 publishedAt: 2023-04-19 00:00:00
 author: judah-t-anthony
-image: /images/posts/0_XyPTZ5hNMpSry0or.webp
+image: /images/posts/hiring-software-engineers-is-about-more-than-just-coding-skills.png
 excerpt: Skills determine what you can do; character determines what you *will* do.
 tags: 
   - Engineering Management

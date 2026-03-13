@@ -13,12 +13,12 @@ const BREAKPOINTS = [480, 768, 1024, 1366, 1600];
 
 export function getDisplayImage(source: string | null | undefined, seed: string, width = 1200, height = 675): string {
   if (source && source.trim().length > 0) return source;
-  return getPlacecatsUrl(seed, width, height);
+  return getPlaceholderUrl(seed, width, height);
 }
 
-export function getPlacecatsUrl(seed: string, width = 1200, height = 675): string {
+export function getPlaceholderUrl(seed: string, width = 1200, height = 675): string {
   const cleanSeed = encodeURIComponent(seed || "tech-mage");
-  return `https://www.placecats.com/${width}/${height}?seed=${cleanSeed}`;
+  return `https://placehold.co/${width}x${height}/131923/f2f5fb?text=${cleanSeed}`;
 }
 
 export function buildResponsiveImage(
@@ -69,7 +69,7 @@ function getVariantUrl(
   }
 
   if (!source) {
-    return getPlacecatsUrl(seed, width, height);
+    return getPlaceholderUrl(seed, width, height);
   }
 
   return base;

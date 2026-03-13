@@ -2,7 +2,7 @@
 title: Intro to Cryptography
 publishedAt: 2019-07-17 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_wDI-208AHWc4jmKyzIXAsw.webp
+image: /images/posts/intro-to-cryptography.png
 excerpt: I’m going to introduce to you many cryptography primitives and show you how they fit together. I’ll also demonstrate how easy it is to get wrong.
 tags: 
   - Security

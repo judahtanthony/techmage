@@ -2,7 +2,7 @@
 title: OWASP Top Security Vulnerabilities
 publishedAt: 2020-10-21 00:00:00
 author: judah-t-anthony
-image: /images/posts/1_NG0AhteXDXT5B-kDMxmdIg.webp
+image: /images/posts/owasp--top-security-vulnerabilities.png
 tags: 
   - Security
   - SQL Injection
