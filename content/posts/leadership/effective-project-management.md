@@ -1,5 +1,5 @@
 ---
-title: Hiring Software Engineers Is About More Than Just Coding Skills
+title: Effective Project Management
 publishedAt: 2023-01-05 00:00:00
 author: judah-t-anthony
 image: /images/posts/effective-project-management.png
