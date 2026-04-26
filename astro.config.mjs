@@ -4,6 +4,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { siteConfig } from "./src/site.config";
 import rehypeFigure from "./src/lib/rehype-figure.mjs";
+import rehypeCallouts from "./src/lib/rehype-callouts.mjs";
 
 export default defineConfig({
   site: siteConfig.siteUrl,
@@ -12,7 +13,7 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: "shiki",
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeFigure],
+    rehypePlugins: [rehypeKatex, rehypeFigure, rehypeCallouts],
   },
   output: "static",
 });

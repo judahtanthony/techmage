@@ -4,3 +4,5 @@
 - [ ] Search results listings lack styles.
 - [ ] Remove the style guide from the nav.  It should be hidden.  It is only for reference.
 - [ ] 
+- [ ] Fix the drafts feature.
+- [ ] Implement copy in code blocks.

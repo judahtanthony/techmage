@@ -227,6 +227,25 @@ const jsonLd = {
   </article>
 
   <script is:inline>
+    const calloutBlocks = Array.from(document.querySelectorAll(".prose blockquote"));
+    for (const block of calloutBlocks) {
+      const firstP = block.querySelector("p");
+      if (!firstP) continue;
+      const walker = document.createTreeWalker(firstP, NodeFilter.SHOW_TEXT);
+      const firstText = walker.nextNode();
+      if (!firstText || !firstText.textContent) continue;
+      const match = firstText.textContent.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i);
+      if (!match) continue;
+
+      const type = match[1].toLowerCase();
+      const label = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+      firstText.textContent = firstText.textContent.replace(match[0], "");
+
+      block.classList.add("prose-callout", `prose-callout-${type}`);
+      block.setAttribute("data-callout-label", label);
+      block.setAttribute("data-callout-type", type);
+    }
+
     const headings = Array.from(document.querySelectorAll(".prose h2[id]"));
     const tocLinks = Array.from(document.querySelectorAll(".toc-link"));
 

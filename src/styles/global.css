@@ -407,47 +407,47 @@ tr:last-child td {
   gap: 1.05rem;
 }
 
-.prose :global(h2),
-.prose :global(h3),
-.prose :global(h4) {
+.prose h2,
+.prose h3,
+.prose h4 {
   scroll-margin-top: 8rem;
 }
 
-.prose :global(h2) {
+.prose h2 {
   font-size: clamp(1.3rem, 3vw, 1.75rem);
   padding-top: 0.5rem;
 }
 
-.prose :global(h3) {
+.prose h3 {
   font-size: clamp(1.08rem, 2.3vw, 1.3rem);
 }
 
-.prose :global(p),
-.prose :global(li),
-.prose :global(ol),
-.prose :global(ul) {
+.prose p,
+.prose li,
+.prose ol,
+.prose ul {
   color: var(--text-secondary);
 }
 
-.prose :global(a) {
+.prose a {
   color: #ffd69d;
   text-decoration-color: rgba(243, 165, 58, 0.6);
 }
 
-.prose :global(a:hover) {
+.prose a:hover {
   color: #ffe4be;
 }
 
-.prose :global(ul),
-.prose :global(ol) {
+.prose ul,
+.prose ol {
   padding-left: 1.2rem;
 }
 
-.prose :global(li + li) {
+.prose li + li {
   margin-top: 0.35rem;
 }
 
-.prose :global(blockquote) {
+.prose blockquote {
   margin: 0;
   padding: 0.9rem 1rem;
   border-left: 3px solid rgba(243, 165, 58, 0.7);
@@ -456,7 +456,89 @@ tr:last-child td {
   color: #e8d4bb;
 }
 
-.prose :global(:not(pre) > code) {
+.prose hr {
+  margin: 1.3rem 0;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(141, 169, 214, 0.42), transparent);
+}
+
+.prose .prose-callout {
+  margin: 0;
+  padding: 0.95rem 1rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(130, 159, 208, 0.35);
+  background: linear-gradient(145deg, rgba(14, 24, 40, 0.94), rgba(11, 18, 30, 0.95));
+  box-shadow: var(--shadow-inset);
+  position: relative;
+}
+
+.prose .prose-callout::before {
+  content: attr(data-callout-label);
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0.16rem 0.56rem;
+  border-radius: 999px;
+  border: 1px solid rgba(140, 168, 214, 0.45);
+  background: rgba(69, 110, 175, 0.18);
+  color: #d5e5ff;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.prose .prose-callout > :first-child {
+  margin-top: 0;
+}
+
+.prose .prose-callout-note {
+  border-color: rgba(120, 158, 214, 0.4);
+}
+
+.prose .prose-callout-tip {
+  border-color: rgba(101, 182, 145, 0.45);
+}
+
+.prose .prose-callout-tip::before {
+  border-color: rgba(101, 182, 145, 0.58);
+  background: rgba(58, 130, 102, 0.2);
+  color: #c9f3df;
+}
+
+.prose .prose-callout-important {
+  border-color: rgba(158, 145, 225, 0.46);
+}
+
+.prose .prose-callout-important::before {
+  border-color: rgba(158, 145, 225, 0.6);
+  background: rgba(107, 92, 186, 0.24);
+  color: #ddd6ff;
+}
+
+.prose .prose-callout-warning {
+  border-color: rgba(234, 138, 76, 0.58);
+  background: linear-gradient(145deg, rgba(48, 24, 14, 0.86), rgba(32, 18, 12, 0.92));
+}
+
+.prose .prose-callout-warning::before {
+  border-color: rgba(234, 138, 76, 0.7);
+  background: rgba(176, 83, 28, 0.28);
+  color: #ffd8bd;
+}
+
+.prose .prose-callout-caution {
+  border-color: rgba(229, 189, 97, 0.5);
+}
+
+.prose .prose-callout-caution::before {
+  border-color: rgba(229, 189, 97, 0.64);
+  background: rgba(169, 131, 45, 0.24);
+  color: #ffeabf;
+}
+
+.prose :not(pre) > code {
   border-radius: 0.5rem;
   border: 1px solid rgba(201, 171, 130, 0.2);
   background: rgba(242, 162, 59, 0.1);
@@ -465,23 +547,23 @@ tr:last-child td {
   font-size: 0.92em;
 }
 
-.prose :global(.prose-figure),
-.prose :global(figure) {
+.prose .prose-figure,
+.prose figure {
   margin: 1rem 0;
   display: grid;
   gap: 0.55rem;
 }
 
-.prose :global(.prose-image),
-.prose :global(figure img),
-.prose :global(p > img) {
+.prose .prose-image,
+.prose figure img,
+.prose p > img {
   border-radius: var(--radius-md);
   border: 1px solid rgba(171, 191, 222, 0.18);
   box-shadow: var(--shadow-raised);
 }
 
-.prose :global(.prose-caption),
-.prose :global(figcaption) {
+.prose .prose-caption,
+.prose figcaption {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.88rem;
