@@ -227,44 +227,52 @@ const jsonLd = {
   </article>
 
   <script is:inline>
-    const calloutBlocks = Array.from(document.querySelectorAll(".prose blockquote"));
-    for (const block of calloutBlocks) {
-      const firstP = block.querySelector("p");
-      if (!firstP) continue;
-      const walker = document.createTreeWalker(firstP, NodeFilter.SHOW_TEXT);
-      const firstText = walker.nextNode();
-      if (!firstText || !firstText.textContent) continue;
-      const match = firstText.textContent.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i);
-      if (!match) continue;
+    const initPostEnhancements = () => {
+      const calloutBlocks = Array.from(document.querySelectorAll(".prose blockquote"));
+      for (const block of calloutBlocks) {
+        const firstP = block.querySelector("p");
+        if (!firstP) continue;
 
-      const type = match[1].toLowerCase();
-      const label = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
-      firstText.textContent = firstText.textContent.replace(match[0], "");
+        const raw = firstP.innerHTML || "";
+        const match = raw.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i);
+        if (!match) continue;
 
-      block.classList.add("prose-callout", `prose-callout-${type}`);
-      block.setAttribute("data-callout-label", label);
-      block.setAttribute("data-callout-type", type);
-    }
+        const type = match[1].toLowerCase();
+        const label = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+        firstP.innerHTML = raw.replace(match[0], "");
 
-    const headings = Array.from(document.querySelectorAll(".prose h2[id]"));
-    const tocLinks = Array.from(document.querySelectorAll(".toc-link"));
+        block.classList.add("prose-callout", `prose-callout-${type}`);
+        block.setAttribute("data-callout-label", label);
+        block.setAttribute("data-callout-type", type);
+      }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = entry.target.getAttribute("id");
-          if (!id) continue;
-          const link = tocLinks.find((item) => item.getAttribute("data-target") === id);
-          if (!link) continue;
-          if (entry.isIntersecting) {
-            tocLinks.forEach((item) => item.classList.remove("active"));
-            link.classList.add("active");
+      const headings = Array.from(document.querySelectorAll(".prose h2[id]"));
+      const tocLinks = Array.from(document.querySelectorAll(".toc-link"));
+      if (!headings.length || !tocLinks.length || typeof IntersectionObserver === "undefined") return;
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const id = entry.target.getAttribute("id");
+            if (!id) continue;
+            const link = tocLinks.find((item) => item.getAttribute("data-target") === id);
+            if (!link) continue;
+            if (entry.isIntersecting) {
+              tocLinks.forEach((item) => item.classList.remove("active"));
+              link.classList.add("active");
+            }
           }
-        }
-      },
-      { rootMargin: "-20% 0px -65% 0px", threshold: 0.1 },
-    );
-    headings.forEach((h) => io.observe(h));
+        },
+        { rootMargin: "-20% 0px -65% 0px", threshold: 0.1 },
+      );
+      headings.forEach((h) => io.observe(h));
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initPostEnhancements, { once: true });
+    } else {
+      initPostEnhancements();
+    }
   </script>
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

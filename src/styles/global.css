@@ -457,10 +457,12 @@ tr:last-child td {
 }
 
 .prose hr {
-  margin: 1.3rem 0;
+  margin: 1.7rem 0;
   border: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(141, 169, 214, 0.42), transparent);
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(243, 165, 58, 0.68), rgba(141, 169, 214, 0.52), transparent);
+  box-shadow: 0 0 10px rgba(141, 169, 214, 0.2);
 }
 
 .prose .prose-callout {

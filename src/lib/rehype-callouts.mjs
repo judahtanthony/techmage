@@ -11,19 +11,6 @@ function walk(node, visit) {
   }
 }
 
-function findFirstTextNode(nodes) {
-  if (!Array.isArray(nodes)) return undefined;
-  for (const node of nodes) {
-    if (!node) continue;
-    if (node.type === "text") return node;
-    if (Array.isArray(node.children)) {
-      const nested = findFirstTextNode(node.children);
-      if (nested) return nested;
-    }
-  }
-  return undefined;
-}
-
 function findFirstElementChild(node, tagName) {
   if (!node || !Array.isArray(node.children)) return undefined;
   for (const child of node.children) {
@@ -78,11 +65,8 @@ function flattenText(node) {
 
 export default function rehypeCallouts() {
   return (tree) => {
-    let blockquotesSeen = 0;
-    let calloutsMatched = 0;
     walk(tree, (node) => {
       if (!isElement(node, "blockquote")) return;
-      blockquotesSeen += 1;
       if (!Array.isArray(node.children) || node.children.length === 0) return;
 
       const first = findFirstElementChild(node, "p");
@@ -92,7 +76,6 @@ export default function rehypeCallouts() {
       if (typeof paragraphText !== "string" || paragraphText.trim().length === 0) return;
       const match = paragraphText.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i);
       if (!match) return;
-      calloutsMatched += 1;
 
       const textNodes = collectTextNodes(first.children);
       stripPrefixFromTextNodes(textNodes, match[0].length);
@@ -112,10 +95,5 @@ export default function rehypeCallouts() {
         node.children.shift();
       }
     });
-
-    if (process.env.DEBUG_CALLOUTS === "1") {
-      // eslint-disable-next-line no-console
-      console.log(`[rehype-callouts] blockquotes=${blockquotesSeen} matched=${calloutsMatched}`);
-    }
   };
 }
