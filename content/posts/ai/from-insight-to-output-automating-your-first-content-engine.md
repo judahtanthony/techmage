@@ -1,6 +1,6 @@
 ---
 title: "From Insight to Output: Automating Your First Content Engine"
-publishedAt: 2026-04-28 16:23:00
+publishedAt: 2026-05-03 09:53:00
 author: judah-t-anthony
 image: /images/posts/from-insight-to-output-1.png
 excerpt: Build a lightweight AI content engine that turns trend signals into reusable social content using structured outputs, prompt templates, and automation.
@@ -10,6 +10,11 @@ tags:
   - Prompt Engineering
   - Zapier
   - OpenAI
+buzz:
+  linkedin: https://www.linkedin.com/posts/share-7456706308642131968-RRh2
+  facebook: https://www.facebook.com/share/p/1XnELu7hmA/
+  x: https://x.com/judahtanthony/status/2050941606623060108?s=20
+  bluesky: https://bsky.app/profile/judahtanthony.bsky.social/post/3mkxdtgvuts2l
 ---
 
 Most teams do not struggle to come up with content. They struggle to come up with good content consistently, and that is a different problem.
