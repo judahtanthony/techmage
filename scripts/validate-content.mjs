@@ -15,6 +15,7 @@ const allowedLocalExtensions = new Set(["", ".md", ".mdx", ".html", ".png", ".jp
 const defaultTimeZone = "America/New_York";
 
 const errors = [];
+const contentRoutes = new Set();
 
 function exists(p) {
   return fs.access(p).then(() => true).catch(() => false);
@@ -27,6 +28,47 @@ function parseDate(value, filePath, keyName) {
     const str = String(value).trim();
     errors.push(`${filePath}: invalid ${keyName} date \`${str}\`.`);
   }
+}
+
+function inferSlug(filePath, data) {
+  if (data.slug) return String(data.slug);
+  return path.basename(filePath, path.extname(filePath));
+}
+
+function inferPathNamespace(filePath, collection) {
+  const markers = [
+    `${path.sep}content${path.sep}${collection}${path.sep}`,
+    `${path.sep}drafts${path.sep}${collection}${path.sep}`,
+  ];
+
+  let rest;
+  for (const marker of markers) {
+    const idx = filePath.indexOf(marker);
+    if (idx >= 0) {
+      rest = filePath.slice(idx + marker.length);
+      break;
+    }
+  }
+  if (!rest) return undefined;
+  const dir = path.dirname(rest);
+  if (!dir || dir === ".") return undefined;
+  return dir.split(path.sep).join("/");
+}
+
+function inferDateNamespace(publishedAt) {
+  const dt = toUtcDate(publishedAt, defaultTimeZone);
+  if (!dt) return undefined;
+  const yyyy = dt.getUTCFullYear();
+  const mm = String(dt.getUTCMonth() + 1).padStart(2, "0");
+  return `${yyyy}/${mm}`;
+}
+
+function resolveNamespace(filePath, collection, data) {
+  return data.category || inferPathNamespace(filePath, collection) || inferDateNamespace(data.publishedAt) || "unpublished";
+}
+
+function normalizeRoute(route) {
+  return route.endsWith("/") ? route : `${route}/`;
 }
 
 function extractMarkdownTargets(markdown) {
@@ -57,6 +99,8 @@ async function validateLocalTarget(filePath, target) {
   }
 
   if (clean.startsWith("/")) {
+    if (contentRoutes.has(normalizeRoute(clean))) return;
+
     const publicPath = path.join(root, "public", clean);
     if (!(await exists(publicPath))) {
       errors.push(`${filePath}: missing public asset/link target \`${clean}\`.`);
@@ -70,8 +114,23 @@ async function validateLocalTarget(filePath, target) {
   }
 }
 
+async function buildContentRoutes(files) {
+  for (const filePath of files) {
+    if (!filePath.includes(`${path.sep}posts${path.sep}`)) continue;
+
+    // eslint-disable-next-line no-await-in-loop
+    const raw = await fs.readFile(filePath, "utf8");
+    const parsed = matter(raw);
+    const data = parsed.data || {};
+    const slug = inferSlug(filePath, data);
+    const namespace = resolveNamespace(filePath, "posts", data);
+    contentRoutes.add(`/blog/${namespace}/${slug}/`);
+  }
+}
+
 async function main() {
   const files = await fg(contentGlob, { cwd: root, absolute: true });
+  await buildContentRoutes(files);
 
   for (const filePath of files) {
     const raw = await fs.readFile(filePath, "utf8");

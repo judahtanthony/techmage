@@ -1,0 +1,16 @@
+---
+import { renderBrandIcon } from "../lib/icons";
+
+type BrandIconName = "bluesky" | "facebook" | "github" | "linkedin" | "x";
+
+type Props = {
+  name: BrandIconName;
+  size?: number;
+  class?: string;
+};
+
+const { name, size = 16, class: className = "" } = Astro.props as Props;
+const svg = renderBrandIcon(name, size, className);
+---
+
+<Fragment set:html={svg} />

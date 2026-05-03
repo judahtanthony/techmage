@@ -23,6 +23,9 @@ importers:
       katex:
         specifier: ^0.16.22
         version: 0.16.28
+      lucide:
+        specifier: ^1.14.0
+        version: 1.14.0
       lunr:
         specifier: ^2.3.9
         version: 2.3.9
@@ -35,6 +38,9 @@ importers:
       remark-math:
         specifier: ^6.0.0
         version: 6.0.0
+      simple-icons:
+        specifier: ^16.18.1
+        version: 16.18.1
 
 packages:
 
@@ -1169,6 +1175,9 @@ packages:
     resolution: {integrity: sha512-ESL2CrkS/2wTPfuend7Zhkzo2u0daGJ/A2VucJOgQ/C48S/zB8MMeMHSGKYpXhIjbPxfuezITkaBH1wqv00DDQ==}
     engines: {node: 20 || >=22}
 
+  lucide@1.14.0:
+    resolution: {integrity: sha512-IoRC3lHwemJWvsXKcHK90hkgY4h1HGztBL63w2XwFtIu8gFDPp4/kiuqVtlN3vaM9bxsLQ4ZUBJfGsbKFaB2IA==}
+
   lunr@2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
 
@@ -1518,6 +1527,10 @@ packages:
 
   shiki@3.22.0:
     resolution: {integrity: sha512-LBnhsoYEe0Eou4e1VgJACes+O6S6QC0w71fCSp5Oya79inkwkm15gQ1UF6VtQ8j/taMDh79hAB49WUk8ALQW3g==}
+
+  simple-icons@16.18.1:
+    resolution: {integrity: sha512-+AS16pmdVHFdKrzYuTGfNGW6RRJ7eubpRhh2wipqPD5nglXKKIbAoEFhdxuweR1AV63+TuLXVJ+NEqlJpXXa2A==}
+    engines: {node: '>=0.12.18'}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -2890,6 +2903,8 @@ snapshots:
 
   lru-cache@11.2.6: {}
 
+  lucide@1.14.0: {}
+
   lunr@2.3.9: {}
 
   luxon@3.7.2: {}
@@ -3551,6 +3566,8 @@ snapshots:
       '@shikijs/types': 3.22.0
       '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
+
+  simple-icons@16.18.1: {}
 
   sisteransi@1.0.5: {}
 

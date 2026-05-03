@@ -162,6 +162,17 @@ main {
   gap: var(--space-4);
 }
 
+.ui-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ui-pad {
+  padding: 0.85rem;
+}
+
 .page-hero {
   padding: clamp(1rem, 2vw, 1.6rem);
   border-radius: var(--radius-xl);
@@ -283,6 +294,22 @@ main {
   padding: 0;
 }
 
+.icon-chip {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border-radius: 999px;
+}
+
+:global(.tm-icon),
+:global(.tm-brand-icon) {
+  display: block;
+  flex: none;
+}
+
 .ui-raised-button:hover,
 .pill:hover,
 .ui-pill:hover,
@@ -398,6 +425,28 @@ th {
 
 tr:last-child td {
   border-bottom: 0;
+}
+
+.ui-skeleton {
+  height: 1.1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(122, 141, 173, 0.1), rgba(188, 206, 236, 0.22), rgba(122, 141, 173, 0.1));
+  background-size: 220% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+.ui-strip {
+  min-height: 110px;
+  background: linear-gradient(120deg, rgba(243, 165, 58, 0.22), rgba(88, 108, 145, 0.2));
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -20% 0;
+  }
 }
 
 /* Rich prose */

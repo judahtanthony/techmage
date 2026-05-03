@@ -18,6 +18,14 @@ const postSchema = z.object({
   excerpt: z.string().nullable().optional(),
   description: z.string().optional(),
   canonical: z.string().url().optional(),
+  buzz: z
+    .object({
+      linkedin: z.string().url().optional(),
+      facebook: z.string().url().optional(),
+      x: z.string().url().optional(),
+      bluesky: z.string().url().optional(),
+    })
+    .optional(),
   source: z
     .object({
       name: z.string().min(1),

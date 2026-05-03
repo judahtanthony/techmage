@@ -11,6 +11,8 @@ This repository contains the concrete implementation blueprint for a GitHub Page
 Start with `/docs/implementation-blueprint.md`.
 Publishing/redirect conventions are in `/docs/publishing-and-redirects.md`.
 Image lifecycle notes are in `/Users/janthony/src/tech-mage/docs/image-policy.md`.
+Writing voice guidance is in `/docs/writing-style-guide.md`.
+UI implementation workflow is in `/Users/janthony/src/tech-mage/docs/ui-component-workflow.md`.
 
 ## Commands
 

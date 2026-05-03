@@ -10,6 +10,11 @@ tags:
   - Zapier
   - Google Sheets
   - Prompt Engineering
+buzz:
+  linkedin: https://www.linkedin.com/posts/share-7454667242727849985-0p9t
+  x: https://x.com/judahtanthony/status/2048903019756949600?s=20
+  bluesky: https://bsky.app/profile/judahtanthony.bsky.social/post/3mkj742upzq2j
+  facebook: https://www.facebook.com/share/p/18hGtAnZRt/
 ---
 
 Most marketing teams do not have a shortage of ideas. They have a shortage of signal.
@@ -302,7 +307,7 @@ That pattern scales far beyond trend discovery.
 
 Right now this system stops at insight. Next we turn those insights into output.
 
-In the next post, we’ll use these trends to generate short-form social content and begin building a multi-step AI-assisted content workflow.
+In the next post, we’ll use these trends to [generate short-form social content](/blog/ai/from-insight-to-output-automating-your-first-content-engine/) and begin building a multi-step AI-assisted content workflow.
 
 We move from:
 
