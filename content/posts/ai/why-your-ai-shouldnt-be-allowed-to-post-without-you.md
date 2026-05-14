@@ -12,6 +12,11 @@ tags:
   - Airtable
   - Slack
   - Prompt Engineering
+buzz:
+  linkedin: https://www.linkedin.com/posts/judahtanthony_theres-a-scene-in-the-office-where-michael-activity-7460833336551272448-uJAC
+  facebook: https://www.facebook.com/share/p/1Dfu6RPesG/
+  x: https://x.com/judahtanthony/status/2055071986515132464?s=20
+  bluesky: https://bsky.app/profile/judahtanthony.bsky.social/post/3mltywriktc2p
 ---
 
 In March 2016, Microsoft launched an AI chatbot named Tay onto Twitter.

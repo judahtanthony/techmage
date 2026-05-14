@@ -3,14 +3,15 @@ import { formatContentDate } from "../lib/date";
 import { slugifyTag } from "../lib/tags";
 import { withBase } from "../lib/url";
 import type { Thought } from "../lib/thoughts";
+import { renderThoughtHtml } from "../lib/thought-markdown";
 
 type Props = {
   note: Thought;
 };
 
 const { note } = Astro.props as Props;
-const teaser = note.content.slice(0, 220).trim();
 const thoughtHref = withBase(note.url);
+const renderedContent = await renderThoughtHtml(note.content);
 ---
 
 <article id={note.id} class="card note-card stack fade-in">
@@ -20,7 +21,7 @@ const thoughtHref = withBase(note.url);
       <span class="pill">{formatContentDate(note.publishedAt)}</span>
     </div>
   </header>
-  <p class="muted">{teaser}{note.content.length > 220 ? "..." : ""}</p>
+  <div class="note-body prose muted" set:html={renderedContent}></div>
   {note.tags.length > 0 && (
     <p class="tags">{note.tags.map((tag) => <a href={withBase(`/tag/${slugifyTag(tag)}/`)}>#{tag}</a>)}</p>
   )}
@@ -62,6 +63,27 @@ const thoughtHref = withBase(note.url);
     display: flex;
     gap: 0.4rem;
     flex-wrap: wrap;
+  }
+
+  .note-body {
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  .note-body :global(p) {
+    margin: 0;
+  }
+
+  .note-body :global(p + p) {
+    margin-top: 0.7rem;
+  }
+
+  .note-body :global(a) {
+    color: #ffd5a0;
+  }
+
+  .note-body :global(blockquote) {
+    margin: 0.2rem 0;
   }
 
   .tags {

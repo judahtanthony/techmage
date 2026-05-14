@@ -26,6 +26,7 @@
     "lucide": "^1.14.0",
     "lunr": "^2.3.9",
     "luxon": "^3.7.2",
+    "marked": "^18.0.3",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "simple-icons": "^16.18.1"
