@@ -3,4 +3,4 @@ publishedAt:
 author: judah-t-anthony
 ---
 
-Unpublished quick note.
+[] Go through my journal and gather principles.

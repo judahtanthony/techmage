@@ -1,0 +1,345 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Tech Mage home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: Tech Mage
+        - navigation "Primary navigation" [ref=e7]:
+          - link "Artificial Intelligence" [ref=e8] [cursor=pointer]:
+            - /url: /category/ai/
+          - link "Engineering" [ref=e9] [cursor=pointer]:
+            - /url: /category/engineering/
+          - link "Leadership" [ref=e10] [cursor=pointer]:
+            - /url: /category/leadership/
+          - link "Thoughts" [ref=e11] [cursor=pointer]:
+            - /url: /notes/
+        - generic [ref=e12]:
+          - searchbox "Search title, category, tags"
+          - button "Open search" [ref=e13] [cursor=pointer]:
+            - img [ref=e14]
+    - main [ref=e17]:
+      - article [ref=e18]:
+        - figure [ref=e19]:
+          - img "Why Your AI Shouldn’t Be Allowed to Post Without You" [ref=e20]
+          - generic [ref=e22]:
+            - generic [ref=e23]: Artificial Intelligence
+            - heading "Why Your AI Shouldn’t Be Allowed to Post Without You" [level=1] [ref=e24]
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e28]:
+              - generic [ref=e29] [cursor=pointer]: May 11, 2026
+              - generic [ref=e30] [cursor=pointer]: 6 min read
+              - generic [ref=e31] [cursor=pointer]: 1,335 words
+            - generic [ref=e32]:
+              - paragraph [ref=e33]: In March 2016, Microsoft launched an AI chatbot named Tay onto Twitter.
+              - paragraph [ref=e34]: The idea was straightforward. Tay would learn conversational patterns from interactions with users and gradually become more natural over time.
+              - paragraph [ref=e35]: Less than 24 hours later, the system had begun posting racist, inflammatory, and deeply offensive content.
+              - paragraph [ref=e36]: Microsoft shut it down almost immediately.
+              - paragraph [ref=e37]: "The incident became an early example of a broader systems problem: AI systems operating without meaningful oversight behave unpredictably at scale."
+              - paragraph [ref=e38]: "Over the last two posts, we built workflows that moved from:"
+              - figure [ref=e39]:
+                - 'button "waypoints on a journey: signal → insight (expand image)" [ref=e40]'
+              - paragraph [ref=e41]: "to:"
+              - figure [ref=e42]:
+                - 'button "waypoints on a journey: signal → insight → content (expand image)" [ref=e43]'
+              - paragraph [ref=e44]: We aggregated trends, structured data, generated reusable content ideas, and turned AI into a workflow component rather than a standalone tool.
+              - paragraph [ref=e45]: That is where workflows start carrying operational consequences.
+              - paragraph [ref=e46]: Because automation scales mistakes just as efficiently as output.
+              - paragraph [ref=e47]: "And once AI begins generating content at scale, the important question stops being:"
+              - blockquote [ref=e48]:
+                - paragraph [ref=e49]: “Can the AI write this?”
+              - paragraph [ref=e50]: "and becomes:"
+              - blockquote [ref=e51]:
+                - paragraph [ref=e52]: “What controls exist before this reaches customers?”
+              - paragraph [ref=e53]: That is the shift in this post.
+              - paragraph [ref=e54]: We are going to build a lightweight approval workflow that introduces human review before generated content can move forward.
+              - paragraph [ref=e55]: Not because AI is useless. Because reliable systems require oversight, accountability, and judgment.
+              - 'heading "The Shift: From Generation to Governance" [level=2] [ref=e56]'
+              - paragraph [ref=e57]: A lot of AI workflows stop at generation.
+              - paragraph [ref=e58]: Prompt in. Draft out. Done.
+              - paragraph [ref=e59]: That works for experimentation. It breaks down quickly in production environments.
+              - paragraph [ref=e60]: Large language models are designed to generate plausible language, not verified truth. As a result, they can sound confident while being incorrect, outdated, misleading, or entirely fabricated.
+              - paragraph [ref=e61]: That is not malicious behavior. It is simply how the systems work.
+              - paragraph [ref=e62]: And once those systems become embedded inside automated workflows, even small mistakes begin compounding through scale.
+              - paragraph [ref=e63]: "Over time, most mature teams introduce a simple checkpoint pattern:"
+              - blockquote [ref=e64]:
+                - paragraph [ref=e65]: Human-in-the-loop (HITL)
+              - paragraph [ref=e66]: The idea is straightforward. AI proposes. Human decides. Because you can delegate the work, but you can’t delegate the judgment.
+              - paragraph [ref=e67]: That single checkpoint changes the reliability profile of the workflow.
+              - heading "What We’re Building" [level=2] [ref=e68]
+              - paragraph [ref=e69]: Instead of allowing generated content to move directly toward publication, we are introducing a review queue.
+              - paragraph [ref=e70]: "At a high level, the workflow now looks like this:"
+              - figure [ref=e71]:
+                - button "Diagram showing Signals → AI Generation → Airtable Review Queue → Slack Approval → Approved or Rejected states (expand image)" [ref=e72]
+              - paragraph [ref=e73]: The important change is not the tools.
+              - paragraph [ref=e74]: It is the pause.
+              - paragraph [ref=e75]: The workflow intentionally stops and waits for human judgment before continuing. That small architectural decision is what transforms an automation into an operational workflow.
+              - 'heading "Step 1: Move from Spreadsheets to Workflow State" [level=2] [ref=e76]'
+              - paragraph [ref=e77]:
+                - text: In the previous post,
+                - link "generated content ideas were written into Google Sheets" [ref=e78] [cursor=pointer]:
+                  - /url: /blog/ai/from-insight-to-output-automating-your-first-content-engine/
+                - text: ". That worked well for structured storage, but governance introduces a new requirement: workflow state."
+              - paragraph [ref=e79]: A spreadsheet is good at storing rows. Operational workflows need to understand where things are inside a process.
+              - paragraph [ref=e80]: So in this workflow, we move into Airtable. Not because Airtable is inherently “better,” but because the workflow itself has evolved.
+              - paragraph [ref=e81]:
+                - text: We created a simple
+                - code [ref=e82]: Content Queue
+                - text: "table:"
+              - figure [ref=e83]:
+                - button "Screenshot of Airtable Content Queue showing generated AI drafts with platform, perspective, draft text, and workflow status columns (expand image)" [ref=e84]
+              - paragraph [ref=e85]: Each generated content idea becomes its own record.
+              - paragraph [ref=e86]: "Fields include:"
+              - list [ref=e87]:
+                - listitem [ref=e88]: trend
+                - listitem [ref=e89]: platform
+                - listitem [ref=e90]: perspective
+                - listitem [ref=e91]: draft
+                - listitem [ref=e92]: status
+              - paragraph [ref=e93]:
+                - text: "The key field is:"
+                - strong [ref=e94]: Status
+              - paragraph [ref=e95]: "With values:"
+              - list [ref=e96]:
+                - listitem [ref=e97]:
+                  - code [ref=e98]: IN_REVIEW
+                - listitem [ref=e99]:
+                  - code [ref=e100]: APPROVED
+                - listitem [ref=e101]:
+                  - code [ref=e102]: REJECTED
+              - paragraph [ref=e103]: That may look like a small addition. It is not.
+              - paragraph [ref=e104]: This is the point where the workflow becomes stateful.
+              - paragraph [ref=e105]: Earlier workflows processed information and moved on. This workflow remembers where things are in the process.
+              - paragraph [ref=e106]: That distinction matters more than it first appears.
+              - complementary [ref=e107]:
+                - text: Note
+                - paragraph [ref=e108]:
+                  - strong [ref=e109]: One content idea = one workflow object
+                  - text: Each generated draft becomes its own Airtable record. That makes approvals, filtering, analytics, and routing possible at the individual content level instead of treating everything as one large blob of AI output.
+              - 'heading "Step 2: Updating the Content Engine Workflow" [level=2] [ref=e110]'
+              - paragraph [ref=e111]:
+                - text: In the previous post,
+                - link "our content engine generated structured JSON" [ref=e112] [cursor=pointer]:
+                  - /url: /blog/ai/from-insight-to-output-automating-your-first-content-engine/
+                - text: and stored the resulting ideas in Google Sheets.
+              - paragraph [ref=e113]: "Now we modify the workflow so generated content enters the Airtable review queue instead. The updated workflow looks like this:"
+              - figure [ref=e114]:
+                - button "Diagram of Zapier workflow showing Trend Trigger → OpenAI Structured Content Generation → Loop Through Content Ideas → Airtable Create Record (expand image)" [ref=e115]
+              - paragraph [ref=e116]: One implementation detail is worth highlighting.
+              - paragraph [ref=e117]: "The OpenAI response returns an array of generated content ideas:"
+              - code [ref=e119]:
+                - generic [ref=e120]: "{"
+                - generic [ref=e121]: "\"content_ideas\": ["
+                - generic [ref=e122]: ...
+                - generic [ref=e123]: "]"
+                - generic [ref=e124]: "}"
+              - paragraph [ref=e125]: That means the workflow needs to iterate over each generated idea individually before creating Airtable records.
+              - paragraph [ref=e126]: This is where Zapier’s looping step becomes useful.
+              - complementary [ref=e127]:
+                - text: Tip
+                - paragraph [ref=e128]:
+                  - strong [ref=e129]: Loops and Paths introduce the beginnings of orchestration logic
+                - paragraph [ref=e130]: "Two Zapier features dramatically increase what workflows can do:"
+                - list [ref=e131]:
+                  - listitem [ref=e132]:
+                    - strong [ref=e133]: Loops
+                    - text: let workflows iterate over collections of data.
+                  - listitem [ref=e134]:
+                    - strong [ref=e135]: Paths
+                    - text: let workflows branch conditionally based on outcomes.
+                - paragraph [ref=e136]: Together, they introduce workflow behavior that starts resembling orchestration rather than linear automation.
+              - paragraph [ref=e137]: "Each generated content idea now becomes:"
+              - list [ref=e138]:
+                - listitem [ref=e139]: its own record,
+                - listitem [ref=e140]: its own review item,
+                - listitem [ref=e141]: and eventually its own approval decision.
+              - paragraph [ref=e142]: That turns the Airtable table into something more meaningful than storage. It becomes a moderation queue.
+              - 'heading "Step 3: Add Human Approval with Slack" [level=2] [ref=e143]'
+              - paragraph [ref=e144]: Now we introduce the human checkpoint.
+              - paragraph [ref=e145]: "Whenever a new Airtable record enters the queue with:"
+              - paragraph [ref=e146]:
+                - strong [ref=e147]: Status
+                - text: = IN_REVIEW
+              - paragraph [ref=e148]: Zapier sends a Slack approval request.
+              - paragraph [ref=e149]: "Workflow:"
+              - figure [ref=e150]:
+                - button "Screenshot of Zapier workflow showing Airtable Trigger → Slack Request Approval → Conditional Paths → Airtable Status Updates (expand image)" [ref=e151]
+              - paragraph [ref=e152]: "The Slack message looks something like this:"
+              - figure [ref=e153]:
+                - button "Screenshot of Slack approval request showing generated AI content draft with Approve and Decline buttons (expand image)" [ref=e154]
+              - paragraph [ref=e155]: The important architectural shift here is subtle.
+              - paragraph [ref=e156]: The workflow pauses.
+              - paragraph [ref=e157]: Execution stops and waits for a human decision before continuing.
+              - paragraph [ref=e158]: That is very different from the earlier workflows in this series, which behaved more like straightforward pipelines. A trigger fired, the workflow executed, and the process completed automatically.
+              - paragraph [ref=e159]: This workflow behaves differently. It generates content, pauses for review, waits for a decision, and then branches into different paths depending on the outcome before continuing execution.
+              - paragraph [ref=e160]: That shift may seem small, but it is the beginning of orchestration thinking.
+              - 'heading "Step 4: Route Outcomes with Conditional Paths" [level=2] [ref=e161]'
+              - paragraph [ref=e162]: "Once the reviewer responds in Slack, Zapier branches into different paths. Approved content updates the Airtable record:"
+              - paragraph [ref=e163]:
+                - strong [ref=e164]: "Status:"
+                - text: APPROVED
+              - paragraph [ref=e165]: "Rejected content updates the record:"
+              - paragraph [ref=e166]:
+                - strong [ref=e167]: "Status:"
+                - text: REJECTED
+              - paragraph [ref=e168]: "Workflow:"
+              - figure [ref=e169]:
+                - button "Diagram showing Slack Approval leading into conditional paths that update Airtable records to APPROVED or REJECTED (expand image)" [ref=e170]
+              - paragraph [ref=e171]: This is another important systems lesson.
+              - paragraph [ref=e172]: The workflow is no longer fully deterministic. Human judgment changes the execution path.
+              - paragraph [ref=e173]: "That may sound obvious, but it is the beginning of how larger operational systems work:"
+              - list [ref=e174]:
+                - listitem [ref=e175]: approvals,
+                - listitem [ref=e176]: escalations,
+                - listitem [ref=e177]: retries,
+                - listitem [ref=e178]: routing,
+                - listitem [ref=e179]: moderation,
+                - listitem [ref=e180]: and exception handling.
+              - paragraph [ref=e181]: Most operational workflows eventually converge on these same patterns.
+              - heading "Why This Matters More Than the Drafts" [level=2] [ref=e182]
+              - paragraph [ref=e183]: "One thing became obvious while testing this workflow:"
+              - paragraph [ref=e184]: Reviewing AI-generated content is dramatically faster than creating content manually from scratch.
+              - paragraph [ref=e185]: "That changes the role of the human inside the workflow. The human is no longer acting primarily as:"
+              - list [ref=e186]:
+                - listitem [ref=e187]: creator,
+                - listitem [ref=e188]: researcher,
+                - listitem [ref=e189]: or blank-page writer.
+              - paragraph [ref=e190]: "They become:"
+              - list [ref=e191]:
+                - listitem [ref=e192]: editor,
+                - listitem [ref=e193]: reviewer,
+                - listitem [ref=e194]: operator,
+                - listitem [ref=e195]: and decision-maker.
+              - paragraph [ref=e196]: That distinction matters because it reframes what productive AI collaboration actually looks like.
+              - paragraph [ref=e197]: The goal is not removing humans from the workflow; the goal is moving humans higher in the decision stack.
+              - heading "A Real Example of Why Approval Matters" [level=2] [ref=e198]
+              - paragraph [ref=e199]: "During testing, one intentionally bad draft made it through generation:"
+              - code [ref=e201]:
+                - generic [ref=e202]: According to a Harvard study, AI agents improve marketing productivity by 38% when allowed to post autonomously without human review.
+              - paragraph [ref=e203]: The statistic was completely fabricated.
+              - paragraph [ref=e204]: The draft sounded plausible. It was concise. Confident. Even persuasive. And entirely false.
+              - paragraph [ref=e205]: That is exactly the kind of output that becomes problematic when AI systems are allowed to publish autonomously at scale.
+              - paragraph [ref=e206]: The issue is not that AI occasionally makes mistakes. Humans do too. The issue is that automation multiplies mistakes efficiently. That is why approval gates matter.
+              - heading "Governance Is What Separates Experiments from Systems" [level=2] [ref=e207]
+              - paragraph [ref=e208]: At first glance, this workflow may look like a moderation feature. I think it represents something more important.
+              - paragraph [ref=e209]: "This is the point where AI workflows stop being demos and start becoming operational systems. Because operational systems require:"
+              - list [ref=e210]:
+                - listitem [ref=e211]: visibility,
+                - listitem [ref=e212]: control,
+                - listitem [ref=e213]: accountability,
+                - listitem [ref=e214]: and governance.
+              - paragraph [ref=e215]: Not just generation. That shift is happening across the industry right now.
+              - paragraph [ref=e216]: Most organizations are not struggling to get AI to produce output. They are struggling to operationalize AI safely inside real business processes. That is a much harder problem. And a much more valuable one.
+              - heading "Where This Goes Next" [level=2] [ref=e217]
+              - paragraph [ref=e218]: Right now, the workflow stops after approval. That is intentional. Because once content has passed human review, we can safely begin transforming and distributing it across channels. That is where the next stage begins.
+              - paragraph [ref=e219]: "In the next post, we will take approved content and transform it into:"
+              - list [ref=e220]:
+                - listitem [ref=e221]: platform-specific formats,
+                - listitem [ref=e222]: image concepts,
+                - listitem [ref=e223]: memes,
+                - listitem [ref=e224]: and multi-channel campaign assets.
+              - paragraph [ref=e225]: "We move from:"
+              - figure [ref=e226]:
+                - 'button "waypoints on a journey: signal → insight → content → approval (expand image)" [ref=e227]'
+              - paragraph [ref=e228]: "to:"
+              - figure [ref=e229]:
+                - 'button "waypoints on a journey: signal → insight → content → approval → distribution (destination) (expand image)" [ref=e230]'
+              - paragraph [ref=e231]: And that is where the workflow starts becoming something much larger than content generation.
+            - generic [ref=e232]:
+              - link "#Marketing Automation" [ref=e233] [cursor=pointer]:
+                - /url: /tag/marketing-automation/
+              - link "#Workflows" [ref=e234] [cursor=pointer]:
+                - /url: /tag/workflows/
+              - link "#Governance" [ref=e235] [cursor=pointer]:
+                - /url: /tag/governance/
+              - link "#Zapier" [ref=e236] [cursor=pointer]:
+                - /url: /tag/zapier/
+              - link "#Airtable" [ref=e237] [cursor=pointer]:
+                - /url: /tag/airtable/
+              - link "#Slack" [ref=e238] [cursor=pointer]:
+                - /url: /tag/slack/
+              - link "#Prompt Engineering" [ref=e239] [cursor=pointer]:
+                - /url: /tag/prompt-engineering/
+            - navigation [ref=e240]:
+              - 'link "← From Insight to Output: Automating Your First Content Engine" [ref=e241] [cursor=pointer]':
+                - /url: /blog/ai/from-insight-to-output-automating-your-first-content-engine/
+            - generic [ref=e243]:
+              - heading "Related Articles" [level=3] [ref=e244]
+              - list [ref=e245]:
+                - listitem [ref=e246]:
+                  - 'link "Stop Guessing: Build an AI System That Finds Marketing Trends for You" [ref=e247] [cursor=pointer]':
+                    - /url: /blog/ai/stop-guessing-build-ai-system-that-finds-marketing-trends/
+                - listitem [ref=e248]:
+                  - 'link "From Insight to Output: Automating Your First Content Engine" [ref=e249] [cursor=pointer]':
+                    - /url: /blog/ai/from-insight-to-output-automating-your-first-content-engine/
+          - complementary [ref=e250]:
+            - generic [ref=e251]:
+              - heading "Details" [level=3] [ref=e252]
+              - generic [ref=e253]:
+                - generic [ref=e254]:
+                  - term [ref=e255]: Category
+                  - definition [ref=e256]:
+                    - link "Artificial Intelligence" [ref=e257] [cursor=pointer]:
+                      - /url: /category/ai/
+                - generic [ref=e258]:
+                  - term [ref=e259]: Author
+                  - definition [ref=e260]:
+                    - link "Judah T. Anthony" [ref=e261] [cursor=pointer]:
+                      - /url: /author/judah-t-anthony/
+                - generic [ref=e262]:
+                  - term [ref=e263]: Published
+                  - definition [ref=e264]: May 11, 2026
+                - generic [ref=e265]:
+                  - term [ref=e266]: Reading Time
+                  - definition [ref=e267]: 6 min
+            - generic [ref=e268]:
+              - heading "Table of Contents" [level=3] [ref=e269]
+              - list [ref=e270]:
+                - listitem [ref=e271]:
+                  - 'link "The Shift: From Generation to Governance" [ref=e272] [cursor=pointer]':
+                    - /url: "#the-shift-from-generation-to-governance"
+                - listitem [ref=e273]:
+                  - link "What We’re Building" [ref=e274] [cursor=pointer]:
+                    - /url: "#what-were-building"
+                - listitem [ref=e275]:
+                  - 'link "Step 1: Move from Spreadsheets to Workflow State" [ref=e276] [cursor=pointer]':
+                    - /url: "#step-1-move-from-spreadsheets-to-workflow-state"
+                - listitem [ref=e277]:
+                  - 'link "Step 2: Updating the Content Engine Workflow" [ref=e278] [cursor=pointer]':
+                    - /url: "#step-2-updating-the-content-engine-workflow"
+                - listitem [ref=e279]:
+                  - 'link "Step 3: Add Human Approval with Slack" [ref=e280] [cursor=pointer]':
+                    - /url: "#step-3-add-human-approval-with-slack"
+                - listitem [ref=e281]:
+                  - 'link "Step 4: Route Outcomes with Conditional Paths" [ref=e282] [cursor=pointer]':
+                    - /url: "#step-4-route-outcomes-with-conditional-paths"
+                - listitem [ref=e283]:
+                  - link "Why This Matters More Than the Drafts" [ref=e284] [cursor=pointer]:
+                    - /url: "#why-this-matters-more-than-the-drafts"
+                - listitem [ref=e285]:
+                  - link "A Real Example of Why Approval Matters" [ref=e286] [cursor=pointer]:
+                    - /url: "#a-real-example-of-why-approval-matters"
+                - listitem [ref=e287]:
+                  - link "Governance Is What Separates Experiments from Systems" [ref=e288] [cursor=pointer]:
+                    - /url: "#governance-is-what-separates-experiments-from-systems"
+                - listitem [ref=e289]:
+                  - link "Where This Goes Next" [ref=e290] [cursor=pointer]:
+                    - /url: "#where-this-goes-next"
+    - contentinfo [ref=e291]:
+      - generic [ref=e292]:
+        - paragraph [ref=e293]: Tech Mage · Engineering, AI, leadership, and durable writing.
+        - paragraph [ref=e294]: Designed as a calm control surface for deep technical thinking.
+  - generic [ref=e297]:
+    - button "Menu" [ref=e298]:
+      - img [ref=e300]
+      - generic: Menu
+    - button "Inspect" [ref=e304]:
+      - img [ref=e306]
+      - generic: Inspect
+    - button "Audit" [ref=e308]:
+      - img [ref=e310]
+      - generic: Audit
+    - button "Settings" [ref=e313]:
+      - img [ref=e315]
+      - generic: Settings

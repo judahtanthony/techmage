@@ -8,8 +8,10 @@ const {
   ArrowRight,
   CalendarDays,
   Clock3,
+  Expand,
   ExternalLink,
   Menu,
+  X,
   Search,
   Share2,
   Tag,
@@ -20,22 +22,26 @@ export type UiIconName =
   | "arrow-right"
   | "calendar"
   | "clock"
+  | "expand"
   | "external-link"
   | "menu"
   | "search"
   | "share"
-  | "tag";
+  | "tag"
+  | "x";
 
 const uiIconMap: Record<UiIconName, IconNode> = {
   "arrow-left": ArrowLeft,
   "arrow-right": ArrowRight,
   calendar: CalendarDays,
   clock: Clock3,
+  expand: Expand,
   "external-link": ExternalLink,
   menu: Menu,
   search: Search,
   share: Share2,
   tag: Tag,
+  x: X,
 };
 
 type BrandIconName = "bluesky" | "facebook" | "github" | "linkedin" | "x";

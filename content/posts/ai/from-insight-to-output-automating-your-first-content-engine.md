@@ -7,9 +7,9 @@ excerpt: Build a lightweight AI content engine that turns trend signals into reu
 tags:
   - Marketing Automation
   - Workflows
-  - Prompt Engineering
   - Zapier
   - OpenAI
+  - Prompt Engineering
 buzz:
   linkedin: https://www.linkedin.com/posts/share-7456706308642131968-RRh2
   facebook: https://www.facebook.com/share/p/1XnELu7hmA/
@@ -393,4 +393,4 @@ Generating drafts is one thing. Letting AI publish directly on your behalf is so
 
 That is where the next post begins.
 
-Because before you let AI touch your social stream, we need to talk about approvals, control, and why your AI probably should not be allowed to post without you.
+Because before you let AI touch your social stream, we need to talk about approvals, control, and why [your AI probably should not be allowed to post without you](/blog/ai/why-your-ai-shouldnt-be-allowed-to-post-without-you/).

@@ -10,6 +10,7 @@ import { slugifyTag } from "../../lib/tags";
 import { isVisible } from "../../lib/visibility";
 import { estimateReadingStats } from "../../lib/reading";
 import BrandIcon from "../../components/BrandIcon.astro";
+import PostImageLightbox from "../../components/PostImageLightbox.astro";
 
 type Props = {
   post: CollectionEntry<"posts">;
@@ -258,6 +259,8 @@ const jsonLd = {
       </aside>
     </section>
   </article>
+
+  <PostImageLightbox />
 
   <script is:inline>
     const initPostEnhancements = () => {

@@ -22,6 +22,10 @@ export default function rehypeFigure() {
       if (!isElement(only, "img")) return;
 
       const title = only.properties?.title;
+      const alt = typeof only.properties?.alt === "string" ? only.properties.alt.trim() : "";
+      const src = typeof only.properties?.src === "string" ? only.properties.src : "";
+      const caption = typeof title === "string" ? title.trim() : "";
+      const labelBase = alt || caption || "View image larger";
       const imgNode = {
         ...only,
         properties: {
@@ -30,13 +34,28 @@ export default function rehypeFigure() {
         },
       };
 
-      const figureChildren = [imgNode];
-      if (typeof title === "string" && title.trim().length > 0) {
+      const figureChildren = [
+        {
+          type: "element",
+          tagName: "button",
+          properties: {
+            type: "button",
+            className: ["prose-image-button"],
+            "data-lightbox-image": "",
+            "data-lightbox-src": src,
+            "data-lightbox-alt": alt,
+            "data-lightbox-caption": caption,
+            "aria-label": `${labelBase} (expand image)`,
+          },
+          children: [imgNode],
+        },
+      ];
+      if (caption.length > 0) {
         figureChildren.push({
           type: "element",
           tagName: "figcaption",
           properties: { className: ["prose-caption"] },
-          children: [{ type: "text", value: title.trim() }],
+          children: [{ type: "text", value: caption }],
         });
       }
 

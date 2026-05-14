@@ -167,6 +167,19 @@ import BrandIcon from "../components/BrandIcon.astro";
           <p class="muted">Brand marks stay monochrome inside tactile pills and buttons unless a future page has a good reason to use native brand color.</p>
         </article>
         <article class="ui-content-container ui-pad stack">
+          <h3>Post Image Lightbox</h3>
+          <p class="muted">Markdown body images in blog posts are clickable and open in a dark inspection overlay. Hero images remain static.</p>
+          <figure class="prose-figure">
+            <button class="prose-image-button" type="button" aria-label="View image larger (expand image)">
+              <div class="ui-image-frame ui-pad style-guide-lightbox-media">
+                <span class="icon-chip ui-inset-panel style-guide-lightbox-chip"><Icon name="expand" size={16} /></span>
+                <p class="muted">Click to inspect diagrams, screenshots, and article imagery more closely.</p>
+              </div>
+            </button>
+            <figcaption class="prose-caption">Reference behavior for markdown images inside article prose.</figcaption>
+          </figure>
+        </article>
+        <article class="ui-content-container ui-pad stack">
           <h3>Callout</h3>
           <div class="ui-accent-surface ui-pad">
             <strong>Operational note:</strong> Keep AI-generated output reviewable before publishing.
@@ -328,6 +341,23 @@ if (signal) publish();</code></pre>
 
   .media-demo {
     min-height: 100px;
+  }
+
+  .style-guide-lightbox-media {
+    position: relative;
+    min-height: 12rem;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background:
+      radial-gradient(circle at top, rgba(243, 165, 58, 0.14), transparent 32%),
+      linear-gradient(180deg, rgba(19, 25, 35, 0.95) 0%, rgba(12, 17, 24, 0.98) 100%);
+  }
+
+  .style-guide-lightbox-chip {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
   @media (max-width: 800px) {

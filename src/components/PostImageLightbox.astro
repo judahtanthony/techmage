@@ -1,0 +1,116 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<dialog class="post-lightbox" id="post-image-lightbox" aria-labelledby="post-lightbox-caption">
+  <div class="post-lightbox-shell ui-raised-panel-strong">
+    <div class="post-lightbox-topbar">
+      <p class="post-lightbox-label muted">Image inspection</p>
+      <form method="dialog">
+        <button class="ui-icon-button post-lightbox-close" type="submit" aria-label="Close image viewer">
+          <Icon name="x" size={16} />
+        </button>
+      </form>
+    </div>
+    <figure class="post-lightbox-figure">
+      <img id="post-lightbox-image" class="post-lightbox-image" alt="" />
+      <figcaption id="post-lightbox-caption" class="post-lightbox-caption muted"></figcaption>
+    </figure>
+  </div>
+</dialog>
+
+<script is:inline>
+  const lightbox = document.getElementById("post-image-lightbox");
+  const lightboxImage = document.getElementById("post-lightbox-image");
+  const lightboxCaption = document.getElementById("post-lightbox-caption");
+  const scrollRoot = document.documentElement;
+
+  if (lightbox instanceof HTMLDialogElement && lightboxImage instanceof HTMLImageElement && lightboxCaption instanceof HTMLElement) {
+    let lastTrigger = null;
+
+    function hydrateFallbackImages() {
+      const fallbackImages = document.querySelectorAll(".article .prose figure.prose-figure > img.prose-image");
+      for (const image of fallbackImages) {
+        if (!(image instanceof HTMLImageElement)) continue;
+        if (image.closest("[data-lightbox-image]")) continue;
+
+        const figure = image.closest("figure");
+        const caption = figure?.querySelector("figcaption")?.textContent?.trim() || "";
+        const alt = image.getAttribute("alt") || "";
+        const labelBase = alt || caption || "View image larger";
+
+        image.setAttribute("data-lightbox-image", "");
+        image.setAttribute("data-lightbox-src", image.currentSrc || image.src);
+        image.setAttribute("data-lightbox-alt", alt);
+        image.setAttribute("data-lightbox-caption", caption);
+        image.setAttribute("role", "button");
+        image.setAttribute("tabindex", "0");
+        image.setAttribute("aria-label", `${labelBase} (expand image)`);
+        image.classList.add("prose-image-fallback-trigger");
+      }
+    }
+
+    function openLightbox(trigger) {
+      const src = trigger.getAttribute("data-lightbox-src");
+      if (!src) return;
+
+      const alt = trigger.getAttribute("data-lightbox-alt") || "";
+      const caption = trigger.getAttribute("data-lightbox-caption") || "";
+
+      lastTrigger = trigger;
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+      lightboxCaption.textContent = caption;
+      lightboxCaption.hidden = caption.length === 0;
+      lightbox.showModal();
+      scrollRoot.classList.add("lightbox-open");
+    }
+
+    function closeLightbox() {
+      if (lightbox.open) {
+        lightbox.close();
+      }
+    }
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target instanceof Element ? event.target.closest("[data-lightbox-image]") : null;
+      if (!(trigger instanceof HTMLElement)) return;
+      openLightbox(trigger);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const trigger = event.target instanceof Element ? event.target.closest("[data-lightbox-image]") : null;
+      if (!(trigger instanceof HTMLElement)) return;
+      event.preventDefault();
+      openLightbox(trigger);
+    });
+
+    lightbox.addEventListener("click", (event) => {
+      const bounds = lightbox.getBoundingClientRect();
+      const isBackdropClick =
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom;
+
+      if (isBackdropClick) {
+        closeLightbox();
+      }
+    });
+
+    lightbox.addEventListener("close", () => {
+      scrollRoot.classList.remove("lightbox-open");
+      lightboxImage.removeAttribute("src");
+      lightboxImage.alt = "";
+      lightboxCaption.textContent = "";
+      lightboxCaption.hidden = false;
+
+      if (lastTrigger instanceof HTMLElement) {
+        lastTrigger.focus();
+      }
+    });
+
+    hydrateFallbackImages();
+  }
+</script>
