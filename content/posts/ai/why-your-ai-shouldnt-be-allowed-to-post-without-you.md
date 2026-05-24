@@ -295,7 +295,7 @@ Most organizations are not struggling to get AI to produce output. They are stru
 
 Right now, the workflow stops after approval. That is intentional. Because once content has passed human review, we can safely begin transforming and distributing it across channels. That is where the next stage begins.
 
-In the next post, we will take approved content and transform it into:
+In the next post, we will take [approved content and transform it](/blog/ai/one-idea-infinite-formats-scaling-content-across-channels/) into:
 
 * platform-specific formats,
 * image concepts,

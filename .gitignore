@@ -3,5 +3,6 @@ dist/
 .astro/
 .DS_Store
 .env
+.playwright-mcp
 output/
 tmp/
