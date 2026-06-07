@@ -47,6 +47,17 @@ Most posts follow a pattern like this:
 - Use rhetorical questions sparingly to guide attention.
 - Use first person to establish experience, but keep the focus on the reader.
 
+## Diagrams, Code Fences, and Visual Explanations
+
+- Reserve fenced code blocks for material the reader may need to copy, paste, or reproduce exactly: code, configuration, prompts, schemas, template text, formulas, API payloads, CLI commands, and exact field values.
+- Do not use fenced `text` blocks as pseudo-diagrams for ordinary workflow explanations. Avoid arrow-and-gate sketches like `Airtable -> OpenAI -> Slack` or stacked flow diagrams made from text characters.
+- Use prose for short flows. A sentence or paragraph is usually clearer when the sequence has only a few steps.
+- Use numbered lists for procedural instructions the reader should follow in order.
+- Use tables for field definitions, schema comparisons, status meanings, or configuration references.
+- Use real screenshots for UI-driven steps in tools like n8n, Airtable, Slack, Buffer, Pinecone, or Google Drive.
+- Use custom diagrams or illustrations for conceptual architecture, state machines, loops, or mental models.
+- Only add Mermaid when the site supports it and the diagram source should remain editable in Markdown. If Mermaid is not already part of the rendering pipeline, prefer prose plus a designed image placeholder.
+
 ## Common Moves
 
 - Start with an analogy from daily life, traffic, swimming, or systems behavior.

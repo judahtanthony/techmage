@@ -398,6 +398,12 @@ pre {
 pre {
   overflow: auto;
   padding: 0.9rem;
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font-size: 0.84rem;
+  line-height: 1;
 }
 
 code {
@@ -451,9 +457,18 @@ tr:last-child td {
 
 /* Rich prose */
 .prose {
-  max-width: 72ch;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1.05rem;
+  min-width: 0;
+  width: min(100%, 68ch);
+  max-width: 100%;
+  align-self: start;
+}
+
+.prose > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .prose h2,
@@ -478,6 +493,10 @@ tr:last-child td {
   color: var(--text-secondary);
 }
 
+.prose p {
+  line-height: 2;
+}
+
 .prose a {
   color: #ffd69d;
   text-decoration-color: rgba(243, 165, 58, 0.6);
@@ -490,6 +509,44 @@ tr:last-child td {
 .prose ul,
 .prose ol {
   padding-left: 1.2rem;
+}
+
+.prose table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose pre,
+.prose blockquote,
+.prose figure,
+.prose .prose-callout {
+  max-width: 100%;
+}
+
+.prose pre {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.prose pre code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font-size: 0;
+  line-height: 0;
+}
+
+.prose pre .line {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .prose li + li {
@@ -603,6 +660,7 @@ tr:last-child td {
   margin: 1rem 0;
   display: grid;
   gap: 0.55rem;
+  width: 100%;
 }
 
 .prose .prose-image-button {
@@ -613,6 +671,7 @@ tr:last-child td {
   background: transparent;
   display: block;
   width: 100%;
+  max-width: 100%;
   position: relative;
   cursor: zoom-in;
   text-align: inherit;
@@ -663,6 +722,10 @@ tr:last-child td {
 .prose .prose-image,
 .prose figure img,
 .prose p > img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
   border-radius: var(--radius-md);
   border: 1px solid rgba(171, 191, 222, 0.18);
   box-shadow: var(--shadow-raised);

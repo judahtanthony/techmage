@@ -1,0 +1,3650 @@
+{
+  "name": "AI Automations",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ai-automation-posts",
+          "mode": "list",
+          "cachedResultName": "ai-automation-posts"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        512,
+        464
+      ],
+      "id": "3ac92585-078d-4a00-9114-4a6454a8d159",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "cXwRTw6mF03eWuo9",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 512
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        688
+      ],
+      "id": "b3157e78-e327-4dc6-b051-6b9abcddbf85",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $('Format for Embedding').item.json.text }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "platform",
+                "value": "={{ $json.platform }}"
+              },
+              {
+                "name": "topic",
+                "value": "={{ $json.topic }}"
+              },
+              {
+                "name": "angle",
+                "value": "={{ $json.angle }}"
+              },
+              {
+                "name": "airtable_record_id",
+                "value": "={{ $('Format for Embedding').item.json.airtable_record_id }}"
+              },
+              {
+                "name": "summary",
+                "value": "={{ $json.summary }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        656,
+        688
+      ],
+      "id": "1416e352-4930-4343-9843-3af8661091cd",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "12UP3-hOkmJdFV4vjhA0ON1p8VAF0ao2wjQUj2mKNDUc",
+          "mode": "list",
+          "cachedResultName": "Brand and Voice Guide",
+          "cachedResultUrl": "https://docs.google.com/document/d/12UP3-hOkmJdFV4vjhA0ON1p8VAF0ao2wjQUj2mKNDUc/edit?usp=drivesdk"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "text/markdown"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        16,
+        -1248
+      ],
+      "id": "cb0ee5c7-b999-4db9-bea1-bd98fb42c913",
+      "name": "Brand Guide",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "PZKO83jdf4F2GXRU",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblKczmImoRMYM2rQ",
+          "mode": "id"
+        },
+        "filterByFormula": "{Active}",
+        "returnAll": false,
+        "limit": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        -1440
+      ],
+      "id": "688ffbc7-b406-4175-b45d-38ba4f4ba68d",
+      "name": "Active Campaign",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 512
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        -848
+      ],
+      "id": "5b466328-899b-41a4-ae8a-8e81075c5ca6",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBdnvnuQWfdYnRc",
+          "mode": "list",
+          "cachedResultName": "Published Posts",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblBdnvnuQWfdYnRc"
+        },
+        "id": "={{ $json.document.metadata.airtable_record_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        -1040
+      ],
+      "id": "ef741406-3d5b-4ef0-b07c-abf60f746249",
+      "name": "Get a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "ai-automation-posts",
+          "mode": "list",
+          "cachedResultName": "ai-automation-posts"
+        },
+        "prompt": "={{ $json.fields.Draft }}",
+        "topK": 3,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        -1040
+      ],
+      "id": "2c41074a-ae74-4b70-a3e9-20557c8f7f27",
+      "name": "Similar Posts",
+      "credentials": {
+        "pineconeApi": {
+          "id": "cXwRTw6mF03eWuo9",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const binaryData = await this.helpers.getBinaryDataBuffer(0, 'data');\nconst markdownContent = binaryData.toString('utf-8');\n\nreturn [{ json: { markdown: markdownContent } }];"
+      },
+      "id": "b757f6fe-72ee-4785-8ec6-d5fe9db1fc08",
+      "name": "Extract Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -1248
+      ],
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c295cda5-3119-4c54-9329-79c6e413593f",
+              "leftValue": "={{ $json.fields.Indexed }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        464
+      ],
+      "id": "6d335795-5355-410e-9b3a-be7dd3bf4daa",
+      "name": "Unindexed"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f2a6305-569a-44a1-9c19-c8d05a04245f",
+              "leftValue": "={{ $json.fields.Summary.value }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        464
+      ],
+      "id": "02f6c018-bc21-4ff3-80bd-110a8bf7a241",
+      "name": "Has Summary?"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=You are a content strategist skilled in creating concise, consistent single-sentence summaries for social media and marketing materials. Use a professional, neutral tone, suitable for reuse in future prompts as a reference for post-writing guidance.\n\nTask description:\nCarefully review the provided topic and content. Identify the main theme or message. Write a single sentence that succinctly summarizes both, ensuring the sentence avoids repeating details or wording from either field. Emphasize consistency in style, and ensure the summary will help maintain a unified message in future content, while not being repetitive across posts.\n\nOutput format:\nOutput a single clear, complete, and concise sentence that integrates the topic and content meaningfully. Do not include any additional text, explanations, fragments, headings, or repeated phrases. If either field is empty or lacks enough information to summarize, output \"Insufficient information to generate a summary.\"\nExample: \"This post explores recent advances in eco-friendly packaging solutions for retail businesses.\" (Actual output should precisely reflect the provided topic and content and will vary.)\n\nContext and Data:\nTopic: {{ $('Published Post Record').item.json.fields.Topic }}\nContent: {{ $('Published Post Record').item.json.fields.Content }}\n\nOutput: "
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        720
+      ],
+      "id": "3cebcd5a-897f-4c6c-a18f-0a80b2e390a6",
+      "name": "Summarize",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "text",
+              "value": "=Topic: {{ $('Published Post Record').item.json.fields.Topic }}\nAngle: {{ $('Published Post Record').item.json.fields.Angle }}\nContent: {{ $('Published Post Record').item.json.fields.Content }}",
+              "type": "string"
+            },
+            {
+              "id": "6a2e75dd-427c-45ec-a203-3d9aaeea411a",
+              "name": "airtable_record_id",
+              "value": "={{ $('Has Summary?').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "424bd328-97b8-4e7f-b921-dce347deaee0",
+              "name": "platform",
+              "value": "={{ $('Published Post Record').item.json.fields.Platform }}",
+              "type": "string"
+            },
+            {
+              "id": "5e8f92ef-853e-40c2-99ee-c083f3eb1665",
+              "name": "topic",
+              "value": "={{ $('Published Post Record').item.json.fields.Topic }}",
+              "type": "string"
+            },
+            {
+              "id": "b73d44e4-351f-41b3-844a-f196d3b4f2ba",
+              "name": "angle",
+              "value": "={{ $('Published Post Record').item.json.fields.Angle }}",
+              "type": "string"
+            },
+            {
+              "id": "73e9beb5-c01f-4347-8866-31d8367e4162",
+              "name": "campaign",
+              "value": "={{ $('Published Post Record').item.json.fields.Campaign[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "509b6c10-e6b6-4879-97eb-9420ff50e98e",
+              "name": "summary",
+              "value": "={{ $('Published Post Record').item.json.fields.Summary.value ? $('Published Post Record').item.json.fields.Summary.value : $('Summarize').item.json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "61bdacb8-30bf-48d1-9dc1-8026eeddf753",
+      "name": "Format for Embedding",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2de5d92b-d905-4492-9ccd-92de440e4937",
+                    "leftValue": "={{ $json.fields.Status }}",
+                    "rightValue": "IN_PROGRESS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "In Progress"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "315699a7-d958-4084-b51a-e045e59cb14e",
+                    "leftValue": "={{ $json.fields.Status }}",
+                    "rightValue": "IN_REVIEW",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "In Review"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ce182265-d145-4f8c-9b73-c199e9d7e221",
+                    "leftValue": "={{ $json.fields.Status }}",
+                    "rightValue": "APPROVED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Approved"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.fields.Status }}",
+                    "rightValue": "SCHEDULED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d59e41f3-665d-455a-8c9a-0f4b9d411af4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Scheduled"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        -336
+      ],
+      "id": "b302679b-fd88-4003-b373-2052582cba55",
+      "name": "State Machine"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "id"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "id"
+        },
+        "triggerField": "Updated At",
+        "additionalFields": {
+          "viewId": "viwq6TdkUlWk8xGoC"
+        }
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -304
+      ],
+      "id": "5172c2b3-cd75-45f4-890c-dc373aadc3a9",
+      "name": "Content Queue Record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "https://airtable.com/apppd8l7VqLAX2PBd/tblBdnvnuQWfdYnRc/viwtzNfU6Kr3MFewQ",
+          "mode": "url"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "https://airtable.com/apppd8l7VqLAX2PBd/tblBdnvnuQWfdYnRc/viwtzNfU6Kr3MFewQ",
+          "mode": "url"
+        },
+        "triggerField": "Published At",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        464
+      ],
+      "id": "f3bda7d9-71f6-4beb-a7d5-fef8cb8f66b2",
+      "name": "Published Post Record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBdnvnuQWfdYnRc",
+          "mode": "list",
+          "cachedResultName": "Published Posts",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblBdnvnuQWfdYnRc"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Indexed": true,
+            "id": "={{ $('Published Post Record').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Source Record",
+              "displayName": "Source Record",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published At",
+              "displayName": "Published At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Indexed",
+              "displayName": "Indexed",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        464
+      ],
+      "id": "da2f6903-5c54-4542-9600-cba360fc27f4",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"id\": \"{{ $('Content Queue Record').item.json.id }}\",\n  \"campaign\": \"{{ $json.fields[\"Key Messages\"] }}\",\n  \"campaign_ids\": [\"{{ $json.id }}\"]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -1440
+      ],
+      "id": "e038a5c1-b7b5-4cc3-b9e3-d2d2dd13187d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "fields.Summary.value",
+              "renameField": true,
+              "outputFieldName": "summary"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        496,
+        -1040
+      ],
+      "id": "db884e8b-5f64-4c71-926d-d1a3f534f9ff",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"id\": \"{{ $('Content Queue Record').item.json.id }}\",\n  \"brand_guide\": \"{{ $json.markdown }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -1248
+      ],
+      "id": "3cbd9640-3059-44e4-8911-1c414e3343c3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"id\": \"{{ $('Content Queue Record').item.json.id }}\",\n  \"similar_posts\": \"{{ $('Aggregate').item.json.summary.join('\\n') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -1040
+      ],
+      "id": "06c42bf5-8dfb-49c5-8b3e-0841fa4c3849",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"id\": \"{{ $json.id }}\",\n  \"current_record\": {\n    \"title\": \"{{ $json.fields.Title }}\",\n    \"trend\": \"{{ $json.fields.Trend }}\",\n    \"platform\": \"{{ $json.fields.Platform }}\",\n    \"perspective\": \"{{ $json.fields.Perspective }}\",\n    \"draft\": \"{{ $json.fields.Draft }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -832
+      ],
+      "id": "c54ee1d4-f6d9-48df-8a3d-6a5401c8d3cf",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "id",
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        -1440
+      ],
+      "id": "b91449e6-e63d-461b-8ea1-61c6bb6774a7",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "id",
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        960,
+        -1248
+      ],
+      "id": "5e0df19a-48e4-42e3-b4b9-33914ce1b3c7",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "id",
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        864,
+        -1024
+      ],
+      "id": "357dbef4-be53-441a-99fe-30a6df135398",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "799ff786-5c16-4717-8882-c960f462b4fa",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        -528
+      ],
+      "id": "010aad74-c115-46ac-8abb-8065e3d0bd40",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-uploadtourl.uploadToUrl",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -208
+      ],
+      "id": "c0d11a26-d690-423d-bf43-bb5188a088ec",
+      "name": "Upload a File",
+      "credentials": {
+        "uploadToUrlApi": {
+          "id": "GhKTOcjmwgBTuM8F",
+          "name": "Upload to URL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"attachment\": [{ \"url\": \"{{ $json.url }}\" }]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        -208
+      ],
+      "id": "8c820414-074d-4110-b3d5-18fa163f4219",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.fields.Platform }}",
+                    "rightValue": "Twitter/X",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1f3374dc-92cc-4697-b6d9-e868d47fda16"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "213782d8-fab1-4c90-9029-489d10d97594",
+                    "leftValue": "={{ $json.fields.Platform }}",
+                    "rightValue": "LinkedIn",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        64
+      ],
+      "id": "f0a42da5-6331-4eb1-8b66-c4c35e2eff7c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "organizationId": "6a0f6a80caf176d096720d5d",
+        "channelId": "6a0f6b94090476fb99466fdd|twitter",
+        "postText": "={{ $json.fields.Draft }}",
+        "shareMode": "addToQueue",
+        "attachmentType": "image",
+        "imageUrl": "={{ $json.fields['Generated Image'][0].url }}",
+        "imageAltText": "={{ $json.fields['Visual Concept'] }}",
+        "imageThumbnailUrl": "={{ $json.fields['Generated Image'][0].thumbnails.small.url }}"
+      },
+      "type": "@bufferapp/n8n-nodes-buffer.buffer",
+      "typeVersion": 1,
+      "position": [
+        256,
+        16
+      ],
+      "id": "bd30b118-fa66-46eb-b335-7fafc6ce8794",
+      "name": "Post to Twitter/X",
+      "credentials": {
+        "bufferApi": {
+          "id": "nVB6XmhFALwYIXPg",
+          "name": "Buffer account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "09f66bfb-726e-4a7b-8c1a-a3d9c0d8fc80",
+              "name": "sourceRecord",
+              "value": "=[\"{{ $json.id }}\"]",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        80
+      ],
+      "id": "5880ad9b-fada-49d1-8284-fa6b35367155",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=You are helping a marketing team generate content for an AI automation series.\n\nUse the context below to generate a fresh platform-specific draft.\n\nBrand Guide:\n{{ $json.brand_guide }}\n\nActive Campaign:\n{{ $json.campaign }}\n\nSimilar Posts:\n{{ $json.similar_posts }}\n\nCurrent Record:\n{{ JSON.stringify($json.current_record, null, 2) }}\n\nInstructions:\n- Follow the brand guide.\n- Stay aligned to the active campaign.\n- Use similar posts as reference, not source material to copy.\n- Avoid repeating the same angle if similar posts already covered it.\n- Preserve the core idea from the current record.\n- Make the output feel specific, not generic.\n- Return only valid JSON.\n- repetition_risk is one of: Low | Medium | High\n\nReturn this exact JSON shape:\n{\n  \"platform\": \"LinkedIn\",\n  \"topic\": \"Short topic\",\n  \"angle\": \"Short angle\",\n  \"context_notes\": \"One or two sentences describing which context mattered\",\n  \"draft\": \"Final draft text\",\n  \"repetition_risk\": \"Low\"\n}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_object"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        1216,
+        -1440
+      ],
+      "id": "e273f124-4d25-4f39-b537-11a9a6afd111",
+      "name": "Improve Draft",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "list",
+          "cachedResultName": "Content Queue",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblZ8Fttsv872cxuy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "IN_REVIEW",
+            "Draft": "={{ $json.output[0].content[0].text.draft }}",
+            "Context Notes": "={{ $json.output[0].content[0].text.context_notes }}",
+            "Repetition Risk": "={{ $json.output[0].content[0].text.repetition_risk }}",
+            "id": "={{ $('Content Queue Record').item.json.id }}",
+            "Campaign": "={{ $('Merge').item.json.campaign_ids }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "IN_PROGRESS",
+                  "value": "IN_PROGRESS"
+                },
+                {
+                  "name": "IN_REVIEW",
+                  "value": "IN_REVIEW"
+                },
+                {
+                  "name": "APPROVED",
+                  "value": "APPROVED"
+                },
+                {
+                  "name": "REJECTED",
+                  "value": "REJECTED"
+                },
+                {
+                  "name": "SCHEDULED",
+                  "value": "SCHEDULED"
+                },
+                {
+                  "name": "PUBLISHED",
+                  "value": "PUBLISHED"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trend",
+              "displayName": "Trend",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter-X",
+                  "value": "Twitter-X"
+                },
+                {
+                  "name": "Platform",
+                  "value": "Platform"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Perspective",
+              "displayName": "Perspective",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enthusiastic",
+                  "value": "Enthusiastic"
+                },
+                {
+                  "name": "Contrarian",
+                  "value": "Contrarian"
+                },
+                {
+                  "name": "Humorous",
+                  "value": "Humorous"
+                },
+                {
+                  "name": "Perspective",
+                  "value": "Perspective"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Draft",
+              "displayName": "Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Context Notes",
+              "displayName": "Context Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Repetition Risk",
+              "displayName": "Repetition Risk",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Reviewer Notes",
+              "displayName": "Reviewer Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Visual Concept",
+              "displayName": "Visual Concept",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published Posts",
+              "displayName": "Published Posts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Vector ID",
+              "displayName": "Vector ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        -1440
+      ],
+      "id": "0b89235f-374b-42f7-a4f9-ffa2a31eef43",
+      "name": "Save Content",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "list",
+          "cachedResultName": "Content Queue",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblZ8Fttsv872cxuy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Content Queue Record').item.json.id }}",
+            "Status": "APPROVED"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "IN_PROGRESS",
+                  "value": "IN_PROGRESS"
+                },
+                {
+                  "name": "IN_REVIEW",
+                  "value": "IN_REVIEW"
+                },
+                {
+                  "name": "APPROVED",
+                  "value": "APPROVED"
+                },
+                {
+                  "name": "REJECTED",
+                  "value": "REJECTED"
+                },
+                {
+                  "name": "SCHEDULED",
+                  "value": "SCHEDULED"
+                },
+                {
+                  "name": "PUBLISHED",
+                  "value": "PUBLISHED"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trend",
+              "displayName": "Trend",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter-X",
+                  "value": "Twitter-X"
+                },
+                {
+                  "name": "Platform",
+                  "value": "Platform"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Perspective",
+              "displayName": "Perspective",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enthusiastic",
+                  "value": "Enthusiastic"
+                },
+                {
+                  "name": "Contrarian",
+                  "value": "Contrarian"
+                },
+                {
+                  "name": "Humorous",
+                  "value": "Humorous"
+                },
+                {
+                  "name": "Perspective",
+                  "value": "Perspective"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Draft",
+              "displayName": "Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Context Notes",
+              "displayName": "Context Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Repetition Risk",
+              "displayName": "Repetition Risk",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Reviewer Notes",
+              "displayName": "Reviewer Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Visual Concept",
+              "displayName": "Visual Concept",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published Posts",
+              "displayName": "Published Posts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Vector ID",
+              "displayName": "Vector ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        -624
+      ],
+      "id": "4e15ce5d-9d07-48a8-a1e5-af4736bc3916",
+      "name": "Approve Content",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "list",
+          "cachedResultName": "Content Queue",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblZ8Fttsv872cxuy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Content Queue Record').item.json.id }}",
+            "Status": "REJECTED"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "IN_PROGRESS",
+                  "value": "IN_PROGRESS"
+                },
+                {
+                  "name": "IN_REVIEW",
+                  "value": "IN_REVIEW"
+                },
+                {
+                  "name": "APPROVED",
+                  "value": "APPROVED"
+                },
+                {
+                  "name": "REJECTED",
+                  "value": "REJECTED"
+                },
+                {
+                  "name": "SCHEDULED",
+                  "value": "SCHEDULED"
+                },
+                {
+                  "name": "PUBLISHED",
+                  "value": "PUBLISHED"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trend",
+              "displayName": "Trend",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter-X",
+                  "value": "Twitter-X"
+                },
+                {
+                  "name": "Platform",
+                  "value": "Platform"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Perspective",
+              "displayName": "Perspective",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enthusiastic",
+                  "value": "Enthusiastic"
+                },
+                {
+                  "name": "Contrarian",
+                  "value": "Contrarian"
+                },
+                {
+                  "name": "Humorous",
+                  "value": "Humorous"
+                },
+                {
+                  "name": "Perspective",
+                  "value": "Perspective"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Draft",
+              "displayName": "Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Context Notes",
+              "displayName": "Context Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Repetition Risk",
+              "displayName": "Repetition Risk",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Reviewer Notes",
+              "displayName": "Reviewer Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Visual Concept",
+              "displayName": "Visual Concept",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published Posts",
+              "displayName": "Published Posts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Vector ID",
+              "displayName": "Vector ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        -464
+      ],
+      "id": "d20710dd-e890-4799-9948-d01c5f3ae618",
+      "name": "Reject Content",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI creative strategist helping a marketing team transform approved social media posts into visual campaign assets.\n\nYour task is to generate:\n1. A detailed image generation prompt for OpenAI image generation.\n2. A concise visual concept or meme framing idea.\n\nThe generated assets should feel:\n- modern\n- visually engaging\n- platform-native\n- social-media ready\n- attention-grabbing without looking spammy\n- appropriate for professional marketing content\n\nAdapt the tone and visual style to match the content:\n- Professional insights should feel polished and editorial.\n- Contrarian takes should feel bold and debate-worthy.\n- Humorous takes should feel memeable and highly shareable.\n- Viral-style content should feel visually simple, emotionally clear, and optimized for quick social engagement.\n\nThe image prompt should:\n- describe composition, subject matter, style, lighting, and mood\n- be detailed enough for high-quality AI image generation\n- avoid mentioning text overlays unless essential\n- avoid generic “AI futuristic” clichés unless directly relevant\n\nThe visual concept should:\n- explain the core visual metaphor or meme idea\n- be concise and easy for marketers to understand\n- emphasize what makes the content emotionally or socially compelling\n\nReturn ONLY valid JSON matching this schema:\njson:\n{\n  \"image_prompt\": \"string\",\n  \"visual_concept\": \"string\"\n}\n\nExample:\njson:\n{\n  \"image_prompt\": \"A cinematic social-media style image showing a crowded office meeting where everyone is enthusiastically discussing AI buzzwords while one exhausted engineer quietly holds a tangled workflow diagram in the background. Modern startup office, dramatic lighting, realistic photography style, subtle humor, highly relatable workplace energy, optimized for social media engagement.\",\n  \"visual_concept\": \"The real problem is not AI capability. It is operational chaos hidden behind AI hype.\"\n}"
+            },
+            {
+              "content": "=Platform:\n{{$json.fields.Platform}}\n\nPerspective:\n{{$json.fields.Perspective}}\n\nApproved Draft:\n{{$json.fields.Draft}}\n\njson:"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_object"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        -208
+      ],
+      "id": "20b5fe8c-ae48-4100-8df6-9ad48720d7f9",
+      "name": "Create Image Concept",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-image-2",
+          "mode": "list",
+          "cachedResultName": "GPT-IMAGE-2"
+        },
+        "prompt": "=generate image from:\n{{ $json.output[0].content[0].text.image_prompt }}\n\nMeme or visual concept:\n{{ $json.output[0].content[0].text.visual_concept }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        -208
+      ],
+      "id": "41849de6-af5c-4aab-8e6c-ae807ce6b0e3",
+      "name": "Gen Post Image",
+      "credentials": {
+        "openAiApi": {
+          "id": "zFJLguUeKWtasSvY",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "list",
+          "cachedResultName": "Content Queue",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblZ8Fttsv872cxuy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Content Queue Record').item.json.id }}",
+            "Status": "SCHEDULED",
+            "Image Prompt": "={{ $('Create Image Concept').item.json.output[0].content[0].text.image_prompt }}",
+            "Visual Concept": "={{ $('Create Image Concept').item.json.output[0].content[0].text.visual_concept }}",
+            "Generated Image": "={{ $json.attachment }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "IN_PROGRESS",
+                  "value": "IN_PROGRESS"
+                },
+                {
+                  "name": "IN_REVIEW",
+                  "value": "IN_REVIEW"
+                },
+                {
+                  "name": "APPROVED",
+                  "value": "APPROVED"
+                },
+                {
+                  "name": "REJECTED",
+                  "value": "REJECTED"
+                },
+                {
+                  "name": "SCHEDULED",
+                  "value": "SCHEDULED"
+                },
+                {
+                  "name": "PUBLISHED",
+                  "value": "PUBLISHED"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trend",
+              "displayName": "Trend",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter-X",
+                  "value": "Twitter-X"
+                },
+                {
+                  "name": "Platform",
+                  "value": "Platform"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Perspective",
+              "displayName": "Perspective",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enthusiastic",
+                  "value": "Enthusiastic"
+                },
+                {
+                  "name": "Contrarian",
+                  "value": "Contrarian"
+                },
+                {
+                  "name": "Humorous",
+                  "value": "Humorous"
+                },
+                {
+                  "name": "Perspective",
+                  "value": "Perspective"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Draft",
+              "displayName": "Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Context Notes",
+              "displayName": "Context Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Repetition Risk",
+              "displayName": "Repetition Risk",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Reviewer Notes",
+              "displayName": "Reviewer Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Visual Concept",
+              "displayName": "Visual Concept",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Published Posts",
+              "displayName": "Published Posts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Vector ID",
+              "displayName": "Vector ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -208
+      ],
+      "id": "47ad0752-e7ac-4bea-91f3-22dd2b3de35d",
+      "name": "Content to Schedule",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblZ8Fttsv872cxuy",
+          "mode": "list",
+          "cachedResultName": "Content Queue",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblZ8Fttsv872cxuy"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Content Queue Record').item.json.id }}",
+            "Status": "PUBLISHED"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "IN_PROGRESS",
+                  "value": "IN_PROGRESS"
+                },
+                {
+                  "name": "IN_REVIEW",
+                  "value": "IN_REVIEW"
+                },
+                {
+                  "name": "APPROVED",
+                  "value": "APPROVED"
+                },
+                {
+                  "name": "REJECTED",
+                  "value": "REJECTED"
+                },
+                {
+                  "name": "SCHEDULED",
+                  "value": "SCHEDULED"
+                },
+                {
+                  "name": "PUBLISHED",
+                  "value": "PUBLISHED"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Trend",
+              "displayName": "Trend",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter-X",
+                  "value": "Twitter-X"
+                },
+                {
+                  "name": "Platform",
+                  "value": "Platform"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Perspective",
+              "displayName": "Perspective",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enthusiastic",
+                  "value": "Enthusiastic"
+                },
+                {
+                  "name": "Contrarian",
+                  "value": "Contrarian"
+                },
+                {
+                  "name": "Humorous",
+                  "value": "Humorous"
+                },
+                {
+                  "name": "Perspective",
+                  "value": "Perspective"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Draft",
+              "displayName": "Draft",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Context Notes",
+              "displayName": "Context Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Repetition Risk",
+              "displayName": "Repetition Risk",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Reviewer Notes",
+              "displayName": "Reviewer Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Visual Concept",
+              "displayName": "Visual Concept",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Generated Image",
+              "displayName": "Generated Image",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published Posts",
+              "displayName": "Published Posts",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Updated At",
+              "displayName": "Updated At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        496,
+        80
+      ],
+      "id": "984464cf-089e-4a9d-bd87-2990a91bf5b7",
+      "name": "Content to Published",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apppd8l7VqLAX2PBd",
+          "mode": "list",
+          "cachedResultName": "AI Content Engine",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBdnvnuQWfdYnRc",
+          "mode": "list",
+          "cachedResultName": "Published Posts",
+          "cachedResultUrl": "https://airtable.com/apppd8l7VqLAX2PBd/tblBdnvnuQWfdYnRc"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Indexed": false,
+            "Source Record": "={{ $json.sourceRecord }}",
+            "Content": "={{ $json.fields.Draft }}",
+            "Platform": "={{ $json.fields.Platform }}",
+            "Topic": "={{ $json.fields.Trend }}",
+            "Angle": "={{ $json.fields.Perspective }}",
+            "Campaign": "={{ $('Content to Published').item.json.fields.Campaign }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Source Record",
+              "displayName": "Source Record",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Platform",
+              "displayName": "Platform",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "LinkedIn",
+                  "value": "LinkedIn"
+                },
+                {
+                  "name": "Twitter/X",
+                  "value": "Twitter/X"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Campaign",
+              "displayName": "Campaign",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Template Used",
+              "displayName": "Template Used",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Published At",
+              "displayName": "Published At",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Indexed",
+              "displayName": "Indexed",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        80
+      ],
+      "id": "b6702610-4850-473d-8c02-0ea509c81e06",
+      "name": "Content to Post",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AImvm0XWAt57B9CF",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Enrich and draft the post",
+        "height": 832,
+        "width": 1824
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -1520
+      ],
+      "typeVersion": 1,
+      "id": "01bc266d-3753-46b0-8d4e-dde6eaf6c4dc",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Get the post approved",
+        "height": 384,
+        "width": 1824
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -672
+      ],
+      "typeVersion": 1,
+      "id": "eba0e29c-338b-4299-abb6-4e3089eca5c7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Asset generation",
+        "height": 240,
+        "width": 1824
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "f4e0663b-cc47-4062-a355-5a15e49cc7b3",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Schedule the post",
+        "height": 336,
+        "width": 1824
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "602039f1-e4da-48d7-9ade-0506b32bd6ab",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "sendAndWait",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0B2YKARK0V",
+          "mode": "list",
+          "cachedResultName": "ai-content-review"
+        },
+        "message": "=New memory-aware draft ready for review\n\nPlatform:\n{{ $json.fields.Platform }}\n\nCampaign:\n{{ $json.fields.Campaign[0] }}\n\nDraft:\n{{ $json.fields.Draft }}\n\nContext Notes:\n{{ $json.fields['Context Notes'] }}\n\nRepetition Risk:\n{{ $json.fields['Repetition Risk'] }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {
+          "limitWaitTime": {
+            "values": {
+              "resumeAmount": 45,
+              "resumeUnit": "minutes"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        -528
+      ],
+      "id": "570ed975-d0d3-48dc-8d67-7736b921453e",
+      "name": "HITL",
+      "webhookId": "4cfa468a-cc6b-4773-8df0-2486a26318be",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "ru4P75TZP0QLc6PK",
+          "name": "Slack OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Index the Published Post",
+        "height": 512,
+        "width": 1600,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "7bf0bac4-7caa-4c8a-837d-b9c730e2da53",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "organizationId": "6a0f6a80caf176d096720d5d",
+        "channelId": "6a0f6b7e090476fb99466f79|linkedin",
+        "postText": "={{ $json.fields.Draft }}",
+        "shareMode": "addToQueue",
+        "attachmentType": "image",
+        "imageUrl": "={{ $json.fields['Generated Image'][0].url }}",
+        "imageAltText": "={{ $json.fields['Visual Concept'] }}",
+        "imageThumbnailUrl": "={{ $json.fields['Generated Image'][0].thumbnails.small.url }}"
+      },
+      "type": "@bufferapp/n8n-nodes-buffer.buffer",
+      "typeVersion": 1,
+      "position": [
+        256,
+        160
+      ],
+      "id": "8f26ffae-8d96-448a-86a4-6a787dc17e7c",
+      "name": "Post to LinkedIn",
+      "credentials": {
+        "bufferApi": {
+          "id": "nVB6XmhFALwYIXPg",
+          "name": "Buffer account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Guide": {
+      "main": [
+        [
+          {
+            "node": "Extract Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Similar Posts",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Similar Posts": {
+      "main": [
+        [
+          {
+            "node": "Get a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unindexed": {
+      "main": [
+        [
+          {
+            "node": "Has Summary?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Summary?": {
+      "main": [
+        [
+          {
+            "node": "Format for Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Format for Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Embedding": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "State Machine": {
+      "main": [
+        [
+          {
+            "node": "Brand Guide",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Active Campaign",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Similar Posts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HITL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Image Concept",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Queue Record": {
+      "main": [
+        [
+          {
+            "node": "State Machine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Published Post Record": {
+      "main": [
+        [
+          {
+            "node": "Unindexed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Active Campaign": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Markdown": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a record": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Improve Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Approve Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload a File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Content to Schedule",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Post to Twitter/X",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Twitter/X": {
+      "main": [
+        [
+          {
+            "node": "Content to Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Content to Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Improve Draft": {
+      "main": [
+        [
+          {
+            "node": "Save Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image Concept": {
+      "main": [
+        [
+          {
+            "node": "Gen Post Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gen Post Image": {
+      "main": [
+        [
+          {
+            "node": "Upload a File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content to Schedule": {
+      "main": [
+        []
+      ]
+    },
+    "Content to Published": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HITL": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to LinkedIn": {
+      "main": [
+        [
+          {
+            "node": "Content to Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "cc53a920-f476-4354-9d42-c34c30836aff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "38fddb9e2bc13fbc7355903465dc0a234de9bbad99a29bf88d57d2bc72c3447e"
+  },
+  "id": "sLqrEpfRtP7L8UGD",
+  "tags": []
+}
