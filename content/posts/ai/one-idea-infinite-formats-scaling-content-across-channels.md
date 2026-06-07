@@ -12,6 +12,11 @@ tags:
   - Airtable
   - Buffer
   - Image Generation
+buzz:
+  linkedIn: https://www.linkedin.com/posts/judahtanthony_dont-just-settle-for-just-brainstorming-activity-7464386790313947136-83ww
+  facebook: https://www.facebook.com/share/p/1beCmKjk9M/
+  x: https://x.com/judahtanthony/status/2058621398763913423?s=20
+  bluesky: https://bsky.app/profile/judahtanthony.bsky.social/post/3mmmmwyz4rc2d
 ---
 
 Most teams underuse their best ideas.
@@ -272,4 +277,4 @@ The next stage is to move more of that coordination burden into the system. The 
 
 Now that the system can distribute content, the next problem becomes memory. Without memory, the system can repeat itself, reuse the same angle too often, or create posts that look fine in isolation but feel stale across a campaign. Production output creates value, but it also creates history that the system should be able to learn from.
 
-That is the next maturity step. In the next post, we will move from workflow automation toward the first version of an AI marketing agent. The system will not only react to the current record; it will begin using context, history, and memory to make better decisions.
+That is the next maturity step. In the next post, we will [move from workflow automation toward the first version of an AI marketing agent](/blog/ai/your-ai-workflow-has-amnesia-adding-memory-to-your-content-engine). The system will not only react to the current record; it will begin using context, history, and memory to make better decisions.

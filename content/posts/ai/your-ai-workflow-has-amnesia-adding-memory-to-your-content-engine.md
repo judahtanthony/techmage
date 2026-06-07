@@ -1,6 +1,6 @@
 ---
 title: "Your AI Workflow Has Amnesia: Adding Memory to Your Content Engine"
-publishedAt: 2026-05-31 10:00:00
+publishedAt: 2026-06-07 17:01:00
 author: judah-t-anthony
 image: /images/posts/your-ai-workflow-has-amnesia-adding-memory-to-your-content-engine.png
 excerpt: Most teams do not need more AI-generated content. They need a content system that remembers what it already said, what campaign it is supporting, and where human judgment still belongs.

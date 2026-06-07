@@ -11,7 +11,7 @@ const contentGlob = [
   "content/authors/**/*.md",
   "drafts/posts/**/*.md",
 ];
-const allowedLocalExtensions = new Set(["", ".md", ".mdx", ".html", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".avif"]);
+const allowedLocalExtensions = new Set(["", ".md", ".mdx", ".html", ".json", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".avif"]);
 const defaultTimeZone = "America/New_York";
 
 const errors = [];
