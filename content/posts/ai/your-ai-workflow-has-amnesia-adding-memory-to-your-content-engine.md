@@ -13,6 +13,11 @@ tags:
   - Google Docs
   - Pinecone
   - RAG
+buzz:
+  linkedin: https://www.linkedin.com/posts/judahtanthony_airtable-n8n-pinecone-share-7469503843056156672-gOFR/
+  facebook: https://www.facebook.com/share/p/18gZdU5QDg/
+  x: https://x.com/judahtanthony/status/2063735963730215227?s=20
+  bluesky: https://bsky.app/profile/judahtanthony.bsky.social/post/3mnq4kcxvis2q
 ---
 
 Most AI content can be easily spotted after a few seconds. The post is clean. The structure is reasonable. The tone is polished enough. But it could have come from anyone. LLMs are trained to select the most probable next token, so it is no wonder that they produce vague and generic content.
